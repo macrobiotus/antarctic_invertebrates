@@ -11,7 +11,7 @@ Zenodo
 
 # compressed data #
 ###################
-# will be regenerated or is unnessary
+# will be regenerated or is unnecessary
 *.RData
 
 # Logs and databases #
