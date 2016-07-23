@@ -1,9 +1,12 @@
 
 # Ignore these directories #
 ############################
-# these are at Zenodo
+# This folder ist at at Zenodo
 Zenodo
 
+# These folders are local only
+Scratch
+Figures
 
 # pdf reports #
 ###################
