@@ -56,6 +56,7 @@ Implemented here is the correct subsetting for each analysis method (mostly, see
 * [ ] code a barplot
 * [ ] implement analysis of sub-sets
 * [ ] implemnet the axis test of the PCAs?
+* [ ] PCA of abundance values
 
 #### Values to retrieve ...
 * [ ] CCA Anova
