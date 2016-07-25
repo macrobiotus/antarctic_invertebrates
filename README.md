@@ -37,26 +37,46 @@ Implemented here is the correct subsetting for each analysis method (mostly, see
 
 ### Todo
 
-### Read again on
+### Read more on ..  
 * [ ] PCA of geochemical Values
-* [ ] OR MDSplot function in the Random Forests package on untransformed data
+* [ ] PCA of abundance Values
 * [ ] CCA of geochemical Values
 * [ ] CCA of X-Ray Values
-* [ ] PCA of abundance Values
 * [ ] Preprocessing of geochemical Values
-* [ ] Preprocessing of X-Ray Values
+* [x] Preprocessing of X-Ray Values - used `clr()` transformation
 * [ ] Preprocessing of abundance values
 
-### Code
+### Code more on ...
 * [x] remove tree agglomeration - this is currently commented out
+* see timeline
 * [ ] use CCA
+* [ ] remove outliers - via `get_list()`?
+* [ ] implement binary conversion - via `get_list()`?
+* [ ] get an OTU table of of belonging to the CCAs
+* [ ] code a barplot
+* [ ] implement analysis of sub-sets
+* [ ] implemnet the axis test of the PCAs?
 
-### Comment to adreess in by code and manuscript text text
+#### Values to retrieve ...
+* [ ] CCA Anova
+* [ ] CCA Type I and Type III tests
+* [ ] Sample numbers
+* [ ] Model addition table
+* [ ] Coordinates for `QGIS` map
+* [ ] Taxonomy table
+
+#### Images to create
+* [ ] PCA plots
+* [ ] variance plots
+* [ ] removal of co-correlated? /
+* [ ] removal of outliers for CCA? [Palmer 1993]
+* [ ] QGIS map
+
+### Comment to address in by code and manuscript text
 * [ ]  __Seasonal variation__ _"Thinking about seasonal variation, were Chromadorea less abundant, or were they absent from areas with below average conductivity? If they were absent, then less likely to be influenced by seasonal variation (as you’d detect with eDNA)."_
-* [ ] __Seasonal variabtion__ _"Another angle would be if you see the same patterns with presence/absence and abundance data. Presence/absence patterns are less likely to show seasonal changes (see second paragraph of discussion in my Arid Recovery paper)."_
+* [ ] __Seasonal variation__ _"Another angle would be if you see the same patterns with presence/absence and abundance data. Presence/absence patterns are less likely to show seasonal changes (see second paragraph of discussion in my Arid Recovery paper)."_
 
-
-### Comments to adress by text only
+### Comments to address by text only
 * [ ] __Spatial variability__ "Does increased salinity decrease mite / invertebrate diversity in other regions, or does it vary between studies? Show how comparable your findings are to previous work."_
 * [ ] _Shorten the conclusion section_
 * [ ] __Seasonal variation__ _"Do you think the communities are likely to vary over the season, or do you think the same patterns would apply e.g. whole classes absent / much less abundant? ‘Temporal bias’ is different to seasonal variation"_
@@ -73,22 +93,6 @@ Implemented here is the correct subsetting for each analysis method (mostly, see
 * [ ] SI check "metabarcoding" has been inserted everywhere
 * [ ] SI check references are inserted properly
 * [ ] SI check if tables are inserted properly
-
-
-#### Values to retrieve
-* [ ] CCA Anova
-* [ ] CCA Type I and Type Three tests
-* [ ] Sample numbers
-* [ ] Model addition table
-* [ ] Coordinates for Qgis map
-* [ ] Taxonomy table
-
-#### Images to create
-* [ ] PCA plots
-* [ ] variance plots
-* [ ] removal of co-correlated? /
-* [ ] removal of outliers for CCA [Palmer 1993]
-* [ ] QGIS map
 
 ### [Scratch]* * __Save data frame as object__
 * __Prepare merging of biotic data by altering data slots of the Phyloseq objects__
