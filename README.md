@@ -28,15 +28,18 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
  Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information, and conversion to half of the relative abundances.
 
-* __Tree agglomeration and merging of phylotype data, inclusion of sample data__ in `40_merging.R`
+* __~~Tree agglomeration and~~ Merging of phylotype data, inclusion of sample data__ in `40_merging.R`
 
- Tree tip agglomeration of both data-sets, erasing the un-needed `sample_data()` components, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data.
+ ~~Tree tip agglomeration of both data-sets,~~ Erasing the un-needed `sample_data()` components, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data. **Tree tip agglomeration is currently not used.**
+
+* __PCA's and ordinations on abiotic and biotic data__ is implemented in `45_ordinations_trial.R`.  
+Implemented here is the correct subsetting for each analysis method (mostly, see comments in file for what needs doing). Then the scrtipt does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script)
 
 ### Todo
 
 ### Read again on
 * [ ] PCA of geochemical Values
-* [ ] PCA of X-Ray Values:  after transformation employing the clr (centered log ration OR MDSplot function in the Random Forests package on untransformed data 
+* [ ] OR MDSplot function in the Random Forests package on untransformed data
 * [ ] CCA of geochemical Values
 * [ ] CCA of X-Ray Values
 * [ ] PCA of abundance Values
@@ -45,7 +48,7 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * [ ] Preprocessing of abundance values
 
 ### Code
-* [ ] rmove tree agglomeration
+* [x] remove tree agglomeration - this is currently commented out
 * [ ] use CCA
 
 ### Comment to adreess in by code and manuscript text text
