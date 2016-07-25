@@ -4,9 +4,11 @@
 # This folder ist at at Zenodo
 Zenodo
 
-# These folders are local only
+# These folders are local only #
+################################
 Scratch
 Figures
+Text
 
 # pdf reports #
 ###################

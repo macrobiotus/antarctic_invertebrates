@@ -6,7 +6,7 @@ The following code represents analyses conducted for the manuscript titled **"Ag
 
 ### Version history
 
-This is the third recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include chenges requested by both reviwers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. This analysis is a subsequent, thrird re-write. 
+This is the third recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include chenges requested by both reviwers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. This analysis is a subsequent, thrird re-write.
 
 ### Disclaimer
 **THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
@@ -15,44 +15,81 @@ OF SUCH DAMAGE.**
 ## Analysis documentation
 Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed.
 
-## `R` scripts used
-`10_import_data.R` --  __Data import and conversion for R analysis__
-Qiime generated data is imported and saved as `R` object
-`20_field_data.R` --  __ Preparation of x-ray diffraction and soil geochemical data__
+## Implemented steps and corresponding `R` scripts
+* __Data import and conversion for R analysis__  in  `10_import_data.R`
 
-`30_phylotype_data.R` -- __Import and formatting of phylotype data__
+  Qiime generated phylotype data and abiotic measurements are imported and saved as `R` objects.
 
-`40_merging.R` -- __Tree agglomeration and merging of phylotype data, inclusion of sample data__
+* __ Preparation of x-ray diffraction and soil geochemical data__ in `20_field_data.R`
+
+ Retention of variables necessary for analysis, type setting and concise variable naming.
+
+* __Import and formatting of phylotype data__ in `30_phylotype_data.R`
+
+ Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information, and conversion to half of the relative abundances.
+
+* __Tree agglomeration and merging of phylotype data, inclusion of sample data__ in `40_merging.R`
+
+ Tree tip agglomeration of both data-sets, erasing the un-needed `sample_data()` components, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data.
+
+### Todo
+
+### Read again on
+* [ ] PCA of geochemical Values
+* [ ] PCA of X-Ray Values:  after transformation employing the clr (centered log ration OR MDSplot function in the Random Forests package on untransformed data 
+* [ ] CCA of geochemical Values
+* [ ] CCA of X-Ray Values
+* [ ] PCA of abundance Values
+* [ ] Preprocessing of geochemical Values
+* [ ] Preprocessing of X-Ray Values
+* [ ] Preprocessing of abundance values
+
+### Code
+* [ ] rmove tree agglomeration
+* [ ] use CCA
+
+### Comment to adreess in by code and manuscript text text
+* [ ]  __Seasonal variation__ _"Thinking about seasonal variation, were Chromadorea less abundant, or were they absent from areas with below average conductivity? If they were absent, then less likely to be influenced by seasonal variation (as you’d detect with eDNA)."_
+* [ ] __Seasonal variabtion__ _"Another angle would be if you see the same patterns with presence/absence and abundance data. Presence/absence patterns are less likely to show seasonal changes (see second paragraph of discussion in my Arid Recovery paper)."_
 
 
+### Comments to adress by text only
+* [ ] __Spatial variability__ "Does increased salinity decrease mite / invertebrate diversity in other regions, or does it vary between studies? Show how comparable your findings are to previous work."_
+* [ ] _Shorten the conclusion section_
+* [ ] __Seasonal variation__ _"Do you think the communities are likely to vary over the season, or do you think the same patterns would apply e.g. whole classes absent / much less abundant? ‘Temporal bias’ is different to seasonal variation"_
+* [ ] __ Seasonal variation__ _"What is the generation time of these invertebrates? Would the community change over a season?"_
+* [ ] __Global context and salinity"__ _"But why do you think your results are important / could be applicable to global ecosystems?"_
+* [ ] Update methods and results in main text
+* [ ] Update methods and results in SI
+* [ ] Check if PCM and Fig, and Software names are ok
+* [ ] Check referenec formattting again
+* [ ] Update software versions
+* [ ] Update repository information
+* [ ] Check for COI C97 T75
+* [ ] Check for 18S C97 T90
+* [ ] SI check "metabarcoding" has been inserted everywhere
+* [ ] SI check references are inserted properly
+* [ ] SI check if tables are inserted properly
 
 
-###  Biotic data preparation
+#### Values to retrieve
+* [ ] CCA Anova
+* [ ] CCA Type I and Type Three tests
+* [ ] Sample numbers
+* [ ] Model addition table
+* [ ] Coordinates for Qgis map
+* [ ] Taxonomy table
 
-* __Import Qiime files as `Phyloseq` objects --__ Qiime generated data is imported and saved as `R` object by `10_import_data.R`.
+#### Images to create
+* [ ] PCA plots
+* [ ] variance plots
+* [ ] removal of co-correlated? /
+* [ ] removal of outliers for CCA [Palmer 1993]
+* [ ] QGIS map
 
-* __Preparation of `Phyloseq` objects for merging --__ Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information,  and conversion to half of the relative abundances are done in script `30_phylotype_data.R`. 
-
-###  Abiotic data preparation
-
- * __Import abiotic data --__  Soil geochemical and X-Ray diffraction data  is imported and saved as `R` object by `10_import_data.R`.
-
-* __Cleaning  predictor  variables --__ Retention of variables necessary for analysis, type setting and concise variable naming are done in `20_field_data.R`. 
-
-### Combining biotic data sets and inluding abiotic data
-
-* __Agglomerations and merging of phylotype data, inclusion of sample data -- __ Tree tip agglomeration of both data-sets, erasing the un-needed `sample_data()` components, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data are done in `40_merging.R`.
- 
-
-* __Save data frame as object__
-
-
-
-
+### [Scratch]* * __Save data frame as object__
 * __Prepare merging of biotic data by altering data slots of the Phyloseq objects__
  * __Save data frame as object__
-
-
  * __Keep categories__
       * __Plate position__
       * __Sampling location__
@@ -60,6 +97,4 @@ Qiime generated data is imported and saved as `R` object
       * __Mineral variables__
       * __Spatial information (Geopgraphic position, Slope and Elevation)__
       * __Markers__
- * __Save list with each categorie as a `data.frame` __
-    
-       
+ * __Save list with each category as a `data.frame` __
