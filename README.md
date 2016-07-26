@@ -35,35 +35,19 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * __PCA's and ordinations on abiotic and biotic data__ is implemented in `45_ordinations_trial.R`.  
 Implemented here is the correct subsetting for each analysis method (mostly, see comments in file for what needs doing). Then the scrtipt does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script)
 
-### Todo
-
-### Read more on ..  
-* [ ] PCA of geochemical Values
-* [ ] PCA of abundance Values
-* [ ] CCA of geochemical Values
-* [ ] CCA of X-Ray Values
-* [ ] Preprocessing of geochemical Values
-* [x] Preprocessing of X-Ray Values - used `clr()` transformation
-* [ ] Preprocessing of abundance values
-
 ### Code more on ...
-* [x] remove tree agglomeration - this is currently commented out
-* see timeline
-* [ ] use CCA
-* [ ] remove outliers - via `get_list()`?
-* [ ] implement binary conversion - via `get_list()`?
-* [ ] get an OTU table of of belonging to the CCAs
+* [x] remove outliers
+* [x] Preprocessing of geochemical Values
+* [x] Preprocessing of X-Ray Values - used `clr()` transformation
+* [x] PCA of geochemical Values
+* [x] comment out and omit tree agglomeration
+* [ ] modify merging of `phyloseq` objects using binary
+* [ ] MDS of spceies data using `vegan()`
+* [ ] CCA and testing
+* [ ] save plots to correct locations with direct dimensions
+* [ ] get OTU table and needed details from
 * [ ] code a barplot
-* [ ] implement analysis of sub-sets
-* [ ] implemnet the axis test of the PCAs?
-* [ ] PCA of abundance values
-
-#### Values to retrieve ...
-* [ ] CCA Anova
-* [ ] CCA Type I and Type III tests
-* [ ] Sample numbers
-* [ ] Model addition table
-* [ ] Coordinates for `QGIS` map
+* [ ] Coordinates for `QGIS` map - via `get_list()`
 * [ ] Taxonomy table
 
 #### Images to create
@@ -94,15 +78,3 @@ Implemented here is the correct subsetting for each analysis method (mostly, see
 * [ ] SI check "metabarcoding" has been inserted everywhere
 * [ ] SI check references are inserted properly
 * [ ] SI check if tables are inserted properly
-
-### [Scratch]* * __Save data frame as object__
-* __Prepare merging of biotic data by altering data slots of the Phyloseq objects__
- * __Save data frame as object__
- * __Keep categories__
-      * __Plate position__
-      * __Sampling location__
-      * __Geochemical variables__
-      * __Mineral variables__
-      * __Spatial information (Geopgraphic position, Slope and Elevation)__
-      * __Markers__
- * __Save list with each category as a `data.frame` __
