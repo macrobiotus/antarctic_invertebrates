@@ -43,13 +43,17 @@ Implemented here is the correct sub-setting for each analysis method (mostly, se
 * [x] comment out and omit tree agglomeration
 * [x] PCA of combined Values
 * [x] modify merging of `phyloseq` objects using binary
-* [ ] MDS of species data using `vegan()`
-* [ ] CCA and testing (CCA is possible with presence-absence data)
-* [ ] save plots to correct locations with direct dimensions
-* [ ] get OTU table and needed details from
-* [ ] code a bar-plot
+* [x] MDS of species data using `vegan()`
+* [ ] CCA and testing - CCA is possible with presence-absence data
+* [ ] code a suitable bar-plot in `45_ordinations_trial`
+* [ ] code `phyloseq` subseeting in `45_ordinations_trial`
+* [ ] get OTU table and needed details
 * [ ] Coordinates for `QGIS` map - via `get_list()`
-* [ ] Taxonomy table
+* [ ] output plots with direct dimensions
+* [ ] clean out code
+* [ ] save plots to correct locations with direct dimensions
+* [ ] Look up citations in final code.
+
 
 #### Images to create
 * [ ] PCA plots
