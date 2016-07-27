@@ -26,14 +26,14 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 * __Import and formatting of phylotype data__ in `30_phylotype_data.R`
 
- Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information, and conversion to half of the relative abundances.
+ Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information, and conversion to presence / absence.
 
 * __~~Tree agglomeration and~~ Merging of phylotype data, inclusion of sample data__ in `40_merging.R`
 
- ~~Tree tip agglomeration of both data-sets,~~ Erasing the un-needed `sample_data()` components, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data. **Tree tip agglomeration is currently not used.**
+ ~~Tree tip agglomeration of both data-sets,~~ Erasing the un-needed `sample_data()` components, re-converting to presence / absence, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data. **Tree tip agglomeration is currently not used.**
 
 * __PCA's and ordinations on abiotic and biotic data__ is implemented in `45_ordinations_trial.R`.  
-Implemented here is the correct subsetting for each analysis method (mostly, see comments in file for what needs doing). Then the scrtipt does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script)
+Implemented here is the correct sub-setting for each analysis method (mostly, see comments in file for what needs doing). Then the script does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script). Re-conversion to binary if needed on `spc` matrix in `set_presences()` (and `get_list()`). Checks input `phyloseq` object
 
 ### Code more on ...
 * [x] remove outliers
@@ -41,12 +41,13 @@ Implemented here is the correct subsetting for each analysis method (mostly, see
 * [x] Preprocessing of X-Ray Values - used `clr()` transformation
 * [x] PCA of geochemical Values
 * [x] comment out and omit tree agglomeration
-* [ ] modify merging of `phyloseq` objects using binary
-* [ ] MDS of spceies data using `vegan()`
-* [ ] CCA and testing
+* [x] PCA of combined Values
+* [x] modify merging of `phyloseq` objects using binary
+* [ ] MDS of species data using `vegan()`
+* [ ] CCA and testing (CCA is possible with presence-absence data)
 * [ ] save plots to correct locations with direct dimensions
 * [ ] get OTU table and needed details from
-* [ ] code a barplot
+* [ ] code a bar-plot
 * [ ] Coordinates for `QGIS` map - via `get_list()`
 * [ ] Taxonomy table
 
