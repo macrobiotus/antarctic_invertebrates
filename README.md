@@ -44,7 +44,14 @@ Implemented here is the correct sub-setting for each analysis method (mostly, se
 * [x] PCA of combined Values
 * [x] modify merging of `phyloseq` objects using binary
 * [x] MDS of species data using `vegan()`
-* [ ] CCA and testing - CCA is possible with presence-absence data
+* [ ] CCA and testing - CCA is possible with presence-absence data? / not in `vegan` - read manuals in `stats` folder - use untransformed data?
+* [ ] remove COI data and use read proportions with CCA 
+* [ ] manual CCA function
+   * [x] implementation correct?
+   * [x] change transformation
+   * [ ] see ordination links
+   * [x] gradient forrest
+
 * [ ] code a suitable bar-plot in `45_ordinations_trial`
 * [ ] code `phyloseq` subseeting in `45_ordinations_trial`
 * [ ] get OTU table and needed details
@@ -53,7 +60,6 @@ Implemented here is the correct sub-setting for each analysis method (mostly, se
 * [ ] clean out code
 * [ ] save plots to correct locations with direct dimensions
 * [ ] Look up citations in final code.
-
 
 #### Images to create
 * [ ] PCA plots
