@@ -6,36 +6,55 @@ The following code represents analyses conducted for the manuscript titled **"Ag
 
 ### Version history
 
-This is the third recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include chenges requested by both reviwers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. This analysis is a subsequent, thrird re-write.
+This is the third recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include changes requested by both reviewers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. This analysis is a subsequent, third re-write.
 
 ### Disclaimer
 **THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.**
 
 ## Analysis documentation
-Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed.
+Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed. Also check the `.git` commit messages and the changelog below.
 
 ## Implemented steps and corresponding `R` scripts
-* __Data import and conversion for R analysis__  in  `10_import_data.R`
+
+### Initial fork
+
+* `10_import_data.R` - __Data import and conversion for R analysis__  
 
   Qiime generated phylotype data and abiotic measurements are imported and saved as `R` objects.
 
-* __ Preparation of x-ray diffraction and soil geochemical data__ in `20_field_data.R`
+* `20_field_data.R` - __ Preparation of x-ray diffraction and soil geochemical data__
 
  Retention of variables necessary for analysis, type setting and concise variable naming.
 
-* __Import and formatting of phylotype data__ in `30_phylotype_data.R`
+* `30_phylotype_data.R` - __Import and formatting of phylotype data__
 
  Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information, and conversion to presence / absence.
 
-* __~~Tree agglomeration and~~ Merging of phylotype data, inclusion of sample data__ in `40_merging.R`
+* `40_merging.R` - __~~Tree agglomeration and~~ Merging of phylotype data, inclusion of sample data__
 
  ~~Tree tip agglomeration of both data-sets,~~ Erasing the un-needed `sample_data()` components, re-converting to presence / absence, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data. **Tree tip agglomeration is currently not used.**
 
-* __PCA's and ordinations on abiotic and biotic data__ is implemented in `45_ordinations_trial.R`.  
-Implemented here is the correct sub-setting for each analysis method (mostly, see comments in file for what needs doing). Then the script does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script). Re-conversion to binary if needed on `spc` matrix in `set_presences()` (and `get_list()`). Checks input `phyloseq` object
+* `45_ordinations_trial.R` - __PCA's and ordinations on abiotic and biotic data__  
 
-### Code more on ...
+ Implemented here is the correct sub-setting for each analysis method (mostly, see comments in file for what needs doing). Then the script does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script). Re-conversion to binary if needed on `spc` matrix in `set_presences()` (and `get_list()`). Checks input `phyloseq` object. **Work in progress.**
+
+### Second fork
+
+ * `50_merging.R` - __Inclusion of sample data into `phyloseq` object__
+
+  Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling`. Erasing the un-needed `sample_data()` components, filtering of everything but the target groups.
+  re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`. **Work in progress.**
+
+* `55_ordinations_trial.R` - __PCA's and ordinations on abiotic and biotic data__  
+
+   Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling` in conjuction with `50_merging.R`. Implemented here is the correct sub-setting for each analysis method (mostly, see comments in file for what needs doing). Then the script does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script). Re-conversion to binary if needed on `spc` matrix in `set_presences()` (and `get_list()`). Checks input `phyloseq` object. **Work in progress.**
+
+## Changelog
+
+* __30.6.2016__ - Updated `readme`. Copied 18S `phyloseq` objects from `/pcm_modelling/objectsR` repository to `/Zenodo/R_Objects` for trials with more recent and abundance-corrected 18S data. Created `50_merging.R` and started working on this. Updated this `readme`.
+
+## Code more on ...
 * [x] remove outliers
 * [x] Preprocessing of geochemical Values
 * [x] Preprocessing of X-Ray Values - used `clr()` transformation
@@ -44,22 +63,19 @@ Implemented here is the correct sub-setting for each analysis method (mostly, se
 * [x] PCA of combined Values
 * [x] modify merging of `phyloseq` objects using binary
 * [x] MDS of species data using `vegan()`
-* [ ] CCA and testing - CCA is possible with presence-absence data? / not in `vegan` - read manuals in `stats` folder - use untransformed data?
-* [ ] remove COI data and use read proportions with CCA 
-* [ ] manual CCA function
-   * [x] implementation correct?
-   * [x] change transformation
-   * [ ] see ordination links
-   * [x] gradient forrest
-
-* [ ] code a suitable bar-plot in `45_ordinations_trial`
-* [ ] code `phyloseq` subseeting in `45_ordinations_trial`
+* [ ] remove COI data and use read proportions copy of `45_ordinations_trial.R`
+    * [ ] in new script `50_merging.R` continue in section ` # Filtering phyloseq data`.   
+    * [ ] create new script `55_ordinations_trial.R` to work with `50_merging.R`.
+* [ ] MDS environmental fitting
+* [ ] request help for transformation and CCA function `vegan` regarding presence-absence data
+* [ ] CCA and testing - CCA is not possible with presence-absence data in `vegan` ?
 * [ ] get OTU table and needed details
 * [ ] Coordinates for `QGIS` map - via `get_list()`
 * [ ] output plots with direct dimensions
 * [ ] clean out code
 * [ ] save plots to correct locations with direct dimensions
 * [ ] Look up citations in final code.
+* [ ] code in `phyloseq` sub-setting in `45_ordinations_trial` and / or `55_ordinations_trial`.
 
 #### Images to create
 * [ ] PCA plots
@@ -81,7 +97,7 @@ Implemented here is the correct sub-setting for each analysis method (mostly, se
 * [ ] Update methods and results in main text
 * [ ] Update methods and results in SI
 * [ ] Check if PCM and Fig, and Software names are ok
-* [ ] Check referenec formattting again
+* [ ] Check reference formatting again
 * [ ] Update software versions
 * [ ] Update repository information
 * [ ] Check for COI C97 T75
