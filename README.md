@@ -41,18 +41,19 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 ### Second fork
 
- * `50_merging.R` - __Inclusion of sample data into `phyloseq` object__
+ * `50_merging.R` - Filtering of phylotype data, inclusion of sample data.
 
   Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling`. Erasing the un-needed `sample_data()` components, filtering of everything but the target groups.
   re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`. **Work in progress.**
 
 * `55_ordinations_trial.R` - __PCA's and ordinations on abiotic and biotic data__  
 
-   Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling` in conjuction with `50_merging.R`. Implemented here is the correct sub-setting for each analysis method (mostly, see comments in file for what needs doing). Then the script does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script). Re-conversion to binary if needed on `spc` matrix in `set_presences()` (and `get_list()`). Checks input `phyloseq` object. **Work in progress.**
+   Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling` in conjunction with `50_merging.R`. Implemented here is the correct sub-setting for each analysis method. PCA and MDS of mineral and chemical data,  incl. environmental vector fitting. **Work in progress.**
 
 ## Changelog
 
 * __30.6.2016__ - Updated `readme`. Copied 18S `phyloseq` objects from `/pcm_modelling/objectsR` repository to `/Zenodo/R_Objects` for trials with more recent and abundance-corrected 18S data. Created `50_merging.R` and started working on this. Updated this `readme`.
+* __2.8.2016__ - Updated `readme`. Finished an executable version of  `50_merging.R`. Finished an executable version of `55_ordinations_trial.R`.
 
 ## Code more on ...
 * [x] remove outliers
@@ -63,11 +64,11 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * [x] PCA of combined Values
 * [x] modify merging of `phyloseq` objects using binary
 * [x] MDS of species data using `vegan()`
-* [ ] remove COI data and use read proportions copy of `45_ordinations_trial.R`
-    * [ ] in new script `50_merging.R` continue in section ` # Filtering phyloseq data`.   
-    * [ ] create new script `55_ordinations_trial.R` to work with `50_merging.R`.
-* [ ] MDS environmental fitting
-* [ ] request help for transformation and CCA function `vegan` regarding presence-absence data
+* [x] remove COI data and use read proportions copy of `45_ordinations_trial.R`
+    * [x] in new script `50_merging.R` continue in section ` # Filtering phyloseq data`.   
+    * [x] create new script `55_ordinations_trial.R` to work with `50_merging.R`.
+* [x] MDS environmental fitting
+* [x] request help for transformation and CCA function `vegan` regarding presence-absence data
 * [ ] CCA and testing - CCA is not possible with presence-absence data in `vegan` ?
 * [ ] get OTU table and needed details
 * [ ] Coordinates for `QGIS` map - via `get_list()`
@@ -76,6 +77,7 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * [ ] save plots to correct locations with direct dimensions
 * [ ] Look up citations in final code.
 * [ ] code in `phyloseq` sub-setting in `45_ordinations_trial` and / or `55_ordinations_trial`.
+* [ ] re-include Insecta / Diplopoda etc in `phyloseq` subsetting (currently in `50_merging.R`)?
 
 #### Images to create
 * [ ] PCA plots

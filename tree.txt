@@ -1,3 +1,105 @@
-- [error opening dir]
+.
+├── 10_import_data.R
+├── 20_field_data.R
+├── 30_phylotype_data.R
+├── 40_merging.R
+├── 45_ordinations_trial.R
+├── 50_merging.pdf
+├── 50_merging.R
+├── 55_ordinations_trial.pdf
+├── 55_ordinations_trial.R
+├── Figures
+│   ├── 45_pca_minerals.pdf
+│   └── 45_var_minerals.pdf
+├── move_documentation.sh
+├── README.md
+├── references.bib
+├── Scratch
+│   ├── 160704_revisions
+│   │   ├── 0_GitHub
+│   │   │   ├── 18S_invertebrates.biom
+│   │   │   ├── 18S_invertebrates.fasta
+│   │   │   ├── 18S_invertebrates.tre
+│   │   │   ├── COI_invertebrates.biom
+│   │   │   ├── COI_invertebrates.fasta
+│   │   │   ├── COI_invertebrates.tre
+│   │   │   ├── main_analysis.R
+│   │   │   ├── observation_metadata.csv
+│   │   │   ├── README.md
+│   │   │   └── site_ages.csv
+│   │   ├── 151216_SI_SBB.pdf
+│   │   ├── 160430_submission_RSOS-160296.pdf
+│   │   ├── 160617_replies_RoySocOS_Manuscript_ID_RSOS160296.pdf
+│   │   ├── 160623_replies_RoySocOS_Manuscript_ID_RSOS160296.pdf
+│   │   ├── 160712_DNA_concentrations.xlsx
+│   │   ├── 160713_notes.md
+│   │   ├── 160716_pre_check
+│   │   │   ├── 160715_invertebrate_salinity.docx
+│   │   │   ├── 160715_revisions_pre.docx
+│   │   │   ├── 160715_si_pre.docx
+│   │   │   └── 160715_si_pre.pdf
+│   │   ├── 160723_LC_returns
+│   │   │   ├── 160715_invertebrate_salinity_LCedit.docx
+│   │   │   ├── 160715_revisions_pre_LCedit_2.docx
+│   │   │   ├── 160715_revisions_pre_LCedit.docx
+│   │   │   └── 160715_si_pre_LCedit.docx
+│   │   ├── 160723_older_files
+│   │   │   ├── 160715_invertebrate_salinity.docx
+│   │   │   ├── 160715_revisions.md
+│   │   │   └── 160715_si.lyx
+│   │   ├── 160723_revisions.md
+│   │   ├── 160723_si copy.lyx
+│   │   └── 1_SI_images
+│   │       ├── fig_05_SI1.png
+│   │       ├── fig_06_SI2.png
+│   │       ├── fig_07_SI3.pdf
+│   │       ├── fig_08_SI4.pdf
+│   │       ├── fig_09_SI5.pdf
+│   │       ├── fig_10_SI6.pdf
+│   │       ├── fig_11_SI7.pdf
+│   │       ├── fig_12_SI8.pdf
+│   │       ├── fig_13_SI9.pdf
+│   │       └── fig_14_S20.pdf
+│   ├── OLD_main_analysis.R
+│   ├── OLD_main_analysis_thesis_version.R
+│   └── R_code_bits.R
+├── Text
+│   ├── 160725_main_text.docx
+│   ├── 160725_revisions.docx
+│   └── 160725_supplemental_information.docx
+├── tree.txt
+└── Zenodo
+    ├── Documentation
+    │   ├── 10_import_data.pdf
+    │   ├── 20_field_data.pdf
+    │   ├── 30_phylotype_data.pdf
+    │   ├── 40_merging.pdf
+    │   └── 45_ordinations_trial.pdf
+    ├── Environment
+    │   └── omd.csv
+    ├── Qiime
+    │   ├── 18S_invertebrates.biom
+    │   ├── 18S_invertebrates.fasta
+    │   ├── 18S_invertebrates.tre
+    │   ├── COI_invertebrates.biom
+    │   ├── COI_invertebrates.fasta
+    │   └── COI_invertebrates.tre
+    └── R_Objects
+        ├── 10_phsq_ob_18S.Rdata
+        ├── 10_phsq_ob_COI.Rdata
+        ├── 10_predictors.Rdata
+        ├── 10_workspace.Rdata
+        ├── 20_predictors.Rdata
+        ├── 20_workspace.Rdata
+        ├── 30_phsq_ob_18S.Rdata
+        ├── 30_phsq_ob_COI.Rdata
+        ├── 30_workspace.Rdata
+        ├── 40_phsq_ob_comb.Rdata
+        ├── 40_workspace.Rdata
+        ├── 50_phsq_ob_comb.Rdata
+        ├── 50_workspace.Rdata
+        ├── 55_workspace.Rdata
+        ├── 560_psob_18S_css_filtered.RData
+        └── 560_psob_18S_default_filtered.RData
 
-0 directories, 0 files
+14 directories, 88 files
