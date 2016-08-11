@@ -38,7 +38,7 @@ path_obs <- "./Zenodo/Environment/predictors.csv"
 #' # Data import
 #' 
 #' Soil geochemical and X-Ray diffraction data is imported using basic R functionality
-predictors <- read.csv(path_obs, stringsAsFactors = FALSE)
+predictors <- read.csv(path_obs, stringsAsFactors = FALSE, na.strings = c("NA" , "#N/A" ))
 
 #' ## Check data dimensions
 #' 

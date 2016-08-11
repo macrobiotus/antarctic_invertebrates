@@ -1,7 +1,7 @@
 #' ---
-#' title: "Preparation of x-ray diffraction and soil geochemical data"
+#' title: "Preparation of predictor data "
 #' author: "Paul Czechowski"
-#' date: "July 23th, 2016"
+#' date: "August 11th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -10,18 +10,14 @@
 #'
 #' # Preface
 #' 
-#' This code contains parts of the analysis for the project "Age-related environmental
-#' gradients determine invertebrate distribution in the Prince Charles Mountains,
-#' East Antarctica." This code is tested using a raw R terminal. Path names are 
+#' This code is tested using a raw R terminal. Path names are 
 #' defined relative to the project directory. This code commentary is included 
 #' in the R code itself and can be rendered at any stage using 
-#' `rmarkdown::render ("./20_field_data.R")`. Please check the session info
+#' `rmarkdown::render ("./20_format_predictors.R")`. Please check the session info
 #' at the end of the document for further notes on the coding environment.
 #'
 #' # Prerequisites
 #' 
-#' * Data was pre-processed in Shell pipeline as outline in the manuscript.
-#' * This script is located in the project parent directory.
 #' * `/10_import_data.R` was run, or the objects to be read in are available in
 #' a folder tree `Zenodo` in the project parent directory.
 #'
@@ -32,10 +28,9 @@
 
 library ("DataCombine")  # here used for string replacement in data frames
 library ("data.table")   # here used for variable renaming
-
 rm(list=ls())            # clear R environment
-                         # working directory is current directory by default and need not
-                         #  to be set
+                         #   working directory is current directory by default and need not
+                         #   to be set
 
 #' ## Setting locations for data import and export
 #' 
@@ -43,14 +38,13 @@ rm(list=ls())            # clear R environment
 #' in the `Zenodo` directory tree. It will also write to that location.
 
 # import locations
-path_predictors_in <- "./Zenodo/R_Objects/10_predictors.Rdata"
+path_predictors_in  <- "./Zenodo/R_Objects/10_predictors.Rdata"
 
 # export locations
-path_workspace          <- "./Zenodo/R_Objects/20_workspace.Rdata"
-path_predictors_out     <- "./Zenodo/R_Objects/20_predictors.Rdata"
-#' <!-- path_predictor_cat_out  <- "./Zenodo/R_Objects/20_predictor_categories.Rdata" -->
+path_workspace      <- "./Zenodo/R_Objects/20_workspace.Rdata"
+path_predictors_out <- "./Zenodo/R_Objects/20_predictors.Rdata"
 
-#' # Formatting the abiotic  predictor data
+#' # Formatting the abiotic predictor data
 #' 
 #' ## Data import
 #' 
@@ -75,9 +69,16 @@ rownames(predictors) <- predictors$Sample
 #' particularities. The rounding errors are corrected by slightly re-scaling
 #' those values here.
 
+# check prior to adjusting
+rowSums ( predictors[grep ("x_",colnames (predictors))])
+
+# adjusting
 predictors[grep ("x_",colnames (predictors))] <- 
   t (apply (predictors[grep ("x_",colnames (predictors))], 1, 
   function (x) {x/sum(x)}))
+
+# check prior to adjusting
+rowSums ( predictors[grep ("x_",colnames (predictors))])
 
 #' The data also contains sample information from samples that are not included
 #' in the current project. These samples will be removed from the data.
@@ -108,7 +109,7 @@ rm(Replaces)
 #' <!-- View(predictors) -->
 #' <!-- dim(predictors)  -->
 
-#' The ".PCM" ate the end of the plate position is also not needed and will likely
+#' The `.PCM` ate the end of the plate position is also not needed and will likely
 #' be annoying much later. This is cut out here. 
 
 predictors$Sample <- gsub('.{4}$', '', predictors$Sample) 
@@ -118,10 +119,11 @@ predictors$Sample <- gsub('.{4}$', '', predictors$Sample)
 #' <!-- dim(predictors)  -->
 
 #' In fact, the sample names can be used as the row names, and then be deleted.
-
 rownames(predictors) <- predictors$Sample
 
-#' ## Removal of superfluous variables  
+predictors$Sample <- NULL
+
+#' ## Removal of unused variables  
 #' 
 #' Also several other variables not needed for this analysis are dropped.
 
@@ -129,19 +131,13 @@ rownames(predictors) <- predictors$Sample
 #' <!-- View(predictors) -->
 #' <!-- dim(predictors)  -->
 
-predictors$Sample      <- NULL
-predictors$CSBP_id     <- NULL
-predictors$c_Gravel    <- NULL
-predictors$c_Texture   <- NULL 
-predictors$XRD.id      <- NULL
-predictors$ATP         <- NULL
-predictors$o_Moisture  <- NULL
-predictors$t_Soil_Temp <- NULL 
-predictors$o_Mites     <- NULL
-predictors$o_Moss      <- NULL
-predictors$o_Salts     <- NULL
-predictors$o_Moisture  <- NULL
-predictors$s_Aspect    <- NULL
+predictors$CSBP_id     <- NULL  # meta-data for sample sorting and assignment
+predictors$XRD.id      <- NULL  # meta-data for sample sorting and assignment
+predictors$o_Mites     <- NULL  # spotty observation data, needs improved encoding
+predictors$o_Moss      <- NULL  # spotty observation data, needs improved encoding
+predictors$o_Salts     <- NULL  # spotty observation data, needs improved encoding
+predictors$o_Moisture  <- NULL  # spotty observation data, needs improved encoding
+predictors$c_Texture   <- NULL  # spotty observation data, needs improved encoding
 
 #' ## Setting and naming of variables used for analysis  
 #' 
@@ -155,10 +151,13 @@ setnames (predictors,
            "c_Potassium", "c_Sulphur", "c_Org_Carbon", "c_Conductivity",
            "c_pH_CaCl2", "c_pH_H2O", "x_Quartz", "x_Feltspar", "x_Titanite",
            "x_Pyr_Amp_Gar", "x_Micas", "x_Dolomite", "x_Kao_Chlor", "x_Calcite",
-           "x_Chlorite", "g_Latitude", "g_Longitude", "g_Elevation", "s_Slope"),
+           "x_Chlorite", "g_Latitude", "g_Longitude", "g_Elevation", "s_Slope", 
+           "s_Aspect", "t_Soil_Temp", "low_age", "high_age", "c_Gravel", 
+           "ATP"),
   new = c ("AREA", "GENE", "AMMN", "NITR", "PHOS", "POTA", "SLPH", "CARB",
            "COND", "PHCC", "PHHO", "QUTZ", "FDSP", "TTAN", "PRAG", "MICA",
-           "DOLO", "KAOC", "CALC", "CHLR", "LATI", "LONG", "ELEV", "SLPE"))
+           "DOLO", "KAOC", "CALC", "CHLR", "LATI", "LONG", "ELEV", "SLPE",
+           "ASPT", "SPTT", "LAGE", "HAGE", "GRVL", "MATP"))
 
 #' <!-- just checking here -->
 #' <!-- View(predictors) -->
@@ -168,6 +167,7 @@ setnames (predictors,
   
 predictors$AREA <- as.factor(predictors$AREA)
 predictors$GENE <- as.factor(predictors$GENE)
+predictors$GRVL <- as.numeric(predictors$GRVL)
 predictors$AMMN <- as.numeric(predictors$AMMN)
 predictors$NITR <- as.numeric(predictors$NITR)
 predictors$PHOS <- as.numeric(predictors$PHOS)
@@ -190,6 +190,11 @@ predictors$LATI <- as.numeric(predictors$LATI)
 predictors$LONG <- as.numeric(predictors$LONG)
 predictors$ELEV <- as.numeric(predictors$ELEV)
 predictors$SLPE <- as.numeric(predictors$SLPE)
+predictors$ASPT <- as.numeric(predictors$ASPT)
+predictors$SPTT <- as.numeric(predictors$SPTT)
+predictors$MATP <- as.numeric(predictors$MATP)
+predictors$LAGE <- as.numeric(predictors$LAGE)
+predictors$HAGE <- as.numeric(predictors$HAGE)
 
 #' ## Checking variables used for analysis  
 #' 
@@ -201,20 +206,9 @@ str(predictors)
 # data summary
 summary (predictors) 
 
-#' Correcting a mistake in marker availability data 
-
+#' Correcting a mistake in marker availability data (excluding one more
+#' that is only relevant when analysing the COI data as well):
 predictors[which (rownames(predictors) %in% c("2.10.E", "2.10.C")), "GENE"] <- "18Sonly"
-
-
-#' <!-- sorting into categories can be implemented here ? -->
-#' <!-- ************************************************* -->
-
-#' <!--  # Getting data categories  -->
-#' <!--  xrays <- predictors[ , c ()] -->
-#' <!--  chems <- predictors[ , c ()] -->
-
-#' <!--  sourc <- predictors[ , c ()] -->
-#' <!--  space <- predictors[ , c ()] -->
 
 #' # Write data to disk 
 #'
