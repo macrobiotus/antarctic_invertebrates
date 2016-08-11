@@ -7,14 +7,14 @@ The following code represents analyses conducted for the manuscript titled **"Ag
 ### Version history
 
 This is the fourth recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include changes requested by both reviewers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. The subsequent, third re-write (23rd August, 2016) used appropriate
-trasnformation techniques an could not retrieve any new results, nor corroborate the old results. This is the fourth re-code - this code uses the recently (Feb. 2016) reprocessed 18S data from repository `pcm_modelling` which used cumulative sum scaling for abundance correction. Predictors are re-added.
+transformation techniques an could not retrieve any new results, nor corroborate the old results. This is the fourth re-code - this code uses the recently (Feb. 2016) reprocessed 18S data from repository `pcm_modelling` which used cumulative sum scaling for abundance correction. Predictors are re-added.
 
 ### Disclaimer
 **THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
 OF SUCH DAMAGE.**
 
 ## Analysis documentation
-Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed. Also check the `.git` commit messages and the changelog below.
+Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed. Also check the `.git` commit messages.
 
 ## Implemented steps and corresponding `R` scripts
 
@@ -22,7 +22,7 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * `10_import_predictors.R` - Predictor import from `.csv` to `.Rdata`
 * `20_format_predictors.R` - Predictor filtering, naming, and type setting.
 * `30_format_phyloseq.R` - Integration of  `css` abundance-corrected 18S originally from (and documented in) repository `pcm_modelling`. `sample_data()` component is erased and substituted with formatted predictors from above.
-* `40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here. 
+* `40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here.
 
 ## Changelog
 
