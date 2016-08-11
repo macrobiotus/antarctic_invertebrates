@@ -1,4 +1,4 @@
-# Age-related environmental gradients determine invertebrate distribution in the Prince Charles Mountains, East Antarctica.
+# Environmental gradients and invertebrate distribution in the Prince Charles Mountains, East Antarctica.
 
 ## Introduction
 
@@ -6,7 +6,8 @@ The following code represents analyses conducted for the manuscript titled **"Ag
 
 ### Version history
 
-This is the third recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include changes requested by both reviewers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. This analysis is a subsequent, third re-write.
+This is the fourth recoding of the analysis for this manuscript. The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include changes requested by both reviewers. The second version of the analysis  (16th July 2016) improved on this to some extend, but carried over too much of the old code and is not publicly available. The subsequent, third re-write (23rd August, 2016) used appropriate
+trasnformation techniques an could not retrieve any new results, nor corroborate the old results. This is the fourth re-code - this code uses the recently (Feb. 2016) reprocessed 18S data from repository `pcm_modelling` which used cumulative sum scaling for abundance correction. Predictors are re-added.
 
 ### Disclaimer
 **THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY
@@ -17,74 +18,23 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 ## Implemented steps and corresponding `R` scripts
 
-### Initial fork
-
-* `10_import_data.R` - __Data import and conversion for R analysis__  
-
-  Qiime generated phylotype data and abiotic measurements are imported and saved as `R` objects.
-
-* `20_field_data.R` - __ Preparation of x-ray diffraction and soil geochemical data__
-
- Retention of variables necessary for analysis, type setting and concise variable naming.
-
-* `30_phylotype_data.R` - __Import and formatting of phylotype data__
-
- Import of `Phyloseq` objects, retention of Antarctic phylotypes, cleaning of taxonomy information, and conversion to presence / absence.
-
-* `40_merging.R` - __~~Tree agglomeration and~~ Merging of phylotype data, inclusion of sample data__
-
- ~~Tree tip agglomeration of both data-sets,~~ Erasing the un-needed `sample_data()` components, re-converting to presence / absence, merging of both data-sets, re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`, and final checking of the combined sample data. **Tree tip agglomeration is currently not used.**
-
-* `45_ordinations_trial.R` - __PCA's and ordinations on abiotic and biotic data__  
-
- Implemented here is the correct sub-setting for each analysis method (mostly, see comments in file for what needs doing). Then the script does PCA of X-Ray Values after transformation employing the centered log ratio. (See citation in script). Re-conversion to binary if needed on `spc` matrix in `set_presences()` (and `get_list()`). Checks input `phyloseq` object. **Work in progress.**
-
-### Second fork
-
- * `50_merging.R` - Filtering of phylotype data, inclusion of sample data.
-
-  Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling`. Erasing the un-needed `sample_data()` components, filtering of everything but the target groups.
-  re-creating a `sample_data()` slot from the predictor measurements of `20_field_data.R`. **Work in progress.**
-
-* `55_ordinations_trial.R` - __PCA's and ordinations on abiotic and biotic data__  
-
-   Replacement for `40_merging.R`, intended to use with `phyloseq` objects imported from repository  `pcm_modelling` in conjunction with `50_merging.R`. Implemented here is the correct sub-setting for each analysis method. PCA and MDS of mineral and chemical data,  incl. environmental vector fitting. **Work in progress.**
+* `00_functions.R` - Helper functions for analysis.
+* `10_import_predictors.R` - Predictor import from `.csv` to `.Rdata`
+* `20_format_predictors.R` - Predictor filtering, naming, and type setting.
+* `30_format_phyloseq.R` - Integration of  `css` abundance-corrected 18S originally from (and documented in) repository `pcm_modelling`. `sample_data()` component is erased and substituted with formatted predictors from above.
+* `40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here. 
 
 ## Changelog
 
-* __30.6.2016__ - Updated `readme`. Copied 18S `phyloseq` objects from `/pcm_modelling/objectsR` repository to `/Zenodo/R_Objects` for trials with more recent and abundance-corrected 18S data. Created `50_merging.R` and started working on this. Updated this `readme`.
-* __2.8.2016__ - Updated `readme`. Finished an executable version of  `50_merging.R`. Finished an executable version of `55_ordinations_trial.R`.
+* Nothing changed since creation of this `readme.md`.
 
-## Code more on ...
-* [x] remove outliers
-* [x] Preprocessing of geochemical Values
-* [x] Preprocessing of X-Ray Values - used `clr()` transformation
-* [x] PCA of geochemical Values
-* [x] comment out and omit tree agglomeration
-* [x] PCA of combined Values
-* [x] modify merging of `phyloseq` objects using binary
-* [x] MDS of species data using `vegan()`
-* [x] remove COI data and use read proportions copy of `45_ordinations_trial.R`
-    * [x] in new script `50_merging.R` continue in section ` # Filtering phyloseq data`.   
-    * [x] create new script `55_ordinations_trial.R` to work with `50_merging.R`.
-* [x] MDS environmental fitting
-* [x] request help for transformation and CCA function `vegan` regarding presence-absence data
-* [ ] CCA and testing - CCA is not possible with presence-absence data in `vegan` ?
-* [ ] get OTU table and needed details
-* [ ] Coordinates for `QGIS` map - via `get_list()`
-* [ ] output plots with direct dimensions
-* [ ] clean out code
-* [ ] save plots to correct locations with direct dimensions
-* [ ] Look up citations in final code.
-* [ ] code in `phyloseq` sub-setting in `45_ordinations_trial` and / or `55_ordinations_trial`.
-* [ ] re-include Insecta / Diplopoda etc in `phyloseq` subsetting (currently in `50_merging.R`)?
+## Manuscript work
 
-#### Images to create
-* [ ] PCA plots
-* [ ] variance plots
-* [ ] removal of co-correlated? /
-* [ ] removal of outliers for CCA? [Palmer 1993]
-* [ ] QGIS map
+### Overview
+*  See `./160808_inv_env/Scratch/160704_revisions` for all old files used prior to first submission to Royal society.
+* See  `./pcm_inv_env/160808_inv_env/Scratch/160811_unused_R_code` for code residues from previous attemps.
+*  See `/160808_inv_env/Scratch/unused_Qiime` for legacy `Qiime` objects.
+*  See `/160808_inv_env/Text` for the latest stages for manuscript submission, these should be used to continue the work on the manuscript.
 
 ### Comment to address in by code and manuscript text
 * [ ]  __Seasonal variation__ _"Thinking about seasonal variation, were Chromadorea less abundant, or were they absent from areas with below average conductivity? If they were absent, then less likely to be influenced by seasonal variation (as you’d detect with eDNA)."_

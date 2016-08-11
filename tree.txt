@@ -1,16 +1,17 @@
 .
-├── 0
-├── 10_import_data.R
-├── 20_field_data.R
-├── 30_phylotype_data.R
-├── 40_merging.R
-├── 45_ordinations_trial.R
-├── 50_merging.R
-├── 55_ordinations_trial.pdf
-├── 55_ordinations_trial.R
+├── 00_functions.pdf
+├── 00_functions.R
+├── 10_import_predictors.pdf
+├── 10_import_predictors.R
+├── 20_format_predictors.pdf
+├── 20_format_predictors.R
+├── 30_format_phyloseq.pdf
+├── 30_format_phyloseq.R
+├── 40_pca_and_ordinations.pdf
+├── 40_pca_and_ordinations.R
 ├── Figures
-│   ├── 45_pca_minerals.pdf
-│   └── 45_var_minerals.pdf
+│   ├── 40_pca_minerals.pdf
+│   └── 40_var_minerals.pdf
 ├── move_documentation.sh
 ├── README.md
 ├── references.bib
@@ -60,10 +61,21 @@
 │   │       ├── fig_12_SI8.pdf
 │   │       ├── fig_13_SI9.pdf
 │   │       └── fig_14_S20.pdf
-│   ├── OLD_main_analysis.R
-│   ├── OLD_main_analysis_thesis_version.R
-│   ├── ordiellipse.R
-│   └── R_code_bits.R
+│   ├── 160811_unused_R_code
+│   │   ├── 30_phylotype_data.R
+│   │   ├── 40_merging.R
+│   │   ├── 45_ordinations_trial.R
+│   │   ├── OLD_main_analysis.R
+│   │   ├── OLD_main_analysis_thesis_version.R
+│   │   ├── ordiellipse.R
+│   │   └── R_code_bits.R
+│   └── unused_Qiime
+│       ├── 18S_invertebrates.biom
+│       ├── 18S_invertebrates.fasta
+│       ├── 18S_invertebrates.tre
+│       ├── COI_invertebrates.biom
+│       ├── COI_invertebrates.fasta
+│       └── COI_invertebrates.tre
 ├── Text
 │   ├── 160725_main_text.docx
 │   ├── 160725_revisions.docx
@@ -71,38 +83,18 @@
 ├── tree.txt
 └── Zenodo
     ├── Documentation
-    │   ├── 10_import_data.pdf
-    │   ├── 20_field_data.pdf
-    │   ├── 30_phylotype_data.pdf
-    │   ├── 40_merging.pdf
-    │   ├── 45_ordinations_trial.pdf
-    │   ├── 50_merging.pdf
-    │   └── 55_ordinations_trial.pdf
     ├── Environment
-    │   └── omd.csv
-    ├── Qiime
-    │   ├── 18S_invertebrates.biom
-    │   ├── 18S_invertebrates.fasta
-    │   ├── 18S_invertebrates.tre
-    │   ├── COI_invertebrates.biom
-    │   ├── COI_invertebrates.fasta
-    │   └── COI_invertebrates.tre
+    │   ├── 160811_raw_predictors.ods
+    │   └── predictors.csv
     └── R_Objects
-        ├── 10_phsq_ob_18S.Rdata
-        ├── 10_phsq_ob_COI.Rdata
         ├── 10_predictors.Rdata
         ├── 10_workspace.Rdata
         ├── 20_predictors.Rdata
         ├── 20_workspace.Rdata
-        ├── 30_phsq_ob_18S.Rdata
-        ├── 30_phsq_ob_COI.Rdata
+        ├── 30_phsq_ob_comb.Rdata
         ├── 30_workspace.Rdata
-        ├── 40_phsq_ob_comb.Rdata
         ├── 40_workspace.Rdata
-        ├── 50_phsq_ob_comb.Rdata
-        ├── 50_workspace.Rdata
-        ├── 55_workspace.Rdata
         ├── 560_psob_18S_css_filtered.RData
         └── 560_psob_18S_default_filtered.RData
 
-14 directories, 91 files
+15 directories, 82 files
