@@ -1,10 +1,10 @@
 .
+├── 0
 ├── 10_import_data.R
 ├── 20_field_data.R
 ├── 30_phylotype_data.R
 ├── 40_merging.R
 ├── 45_ordinations_trial.R
-├── 50_merging.pdf
 ├── 50_merging.R
 ├── 55_ordinations_trial.pdf
 ├── 55_ordinations_trial.R
@@ -62,6 +62,7 @@
 │   │       └── fig_14_S20.pdf
 │   ├── OLD_main_analysis.R
 │   ├── OLD_main_analysis_thesis_version.R
+│   ├── ordiellipse.R
 │   └── R_code_bits.R
 ├── Text
 │   ├── 160725_main_text.docx
@@ -74,7 +75,9 @@
     │   ├── 20_field_data.pdf
     │   ├── 30_phylotype_data.pdf
     │   ├── 40_merging.pdf
-    │   └── 45_ordinations_trial.pdf
+    │   ├── 45_ordinations_trial.pdf
+    │   ├── 50_merging.pdf
+    │   └── 55_ordinations_trial.pdf
     ├── Environment
     │   └── omd.csv
     ├── Qiime
@@ -102,4 +105,4 @@
         ├── 560_psob_18S_css_filtered.RData
         └── 560_psob_18S_default_filtered.RData
 
-14 directories, 88 files
+14 directories, 91 files
