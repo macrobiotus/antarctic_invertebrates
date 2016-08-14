@@ -548,15 +548,17 @@ add_discretex <- function (dfr_v, dfr_x, dfr_x_name = NULL) {
 #' ##  Generate violin plots 
 #'   
 #' Generate violin plots from one discrete X and one continuous Y  
-get_violin <- function (dfr, dfr_x_name){
+get_violin <- function (dfr, dfr_x_name, dfr_y_name){
   
  # build the violin
- violin <- ggplot (dfr, aes_string (x = dfr_x_name, y = column, color = dfr_x_name)) + 
+ violin <- ggplot (dfr, aes_string (x = dfr_x_name, y = dfr_y_name, color = dfr_x_name)) + 
  geom_violin (scale = "area") +
- stat_summary ( fun.data = mean_sdl, geom = "pointrange"))
+ stat_summary ( fun.data = mean_sdl, geom = "pointrange")
   
+
  # return the violin 
- return (violin)
+ print(violin)
+ # return ()
 }
 
 #' <!-- #################################################################### -->
