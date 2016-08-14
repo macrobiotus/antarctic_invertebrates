@@ -516,6 +516,49 @@ barplot_samples <- function(ps_ob, tax_rank){
   return (ps_bar)
 }
 
+#' ## Add grouping factor for discrete X / continuous Y plots  
+#'
+#' This is a "band-aid" function returning an data frame with a factor variable 
+#' if plotting by a grouping variable is desired, which is not (anymore) contained
+#' in the data to be plotted. Factor data frame `dfr_x` is `merge()`d with
+#' multivariate data frame `dfr_v`.
+add_discretex <- function (dfr_v, dfr_x, dfr_x_name = NULL) {
+
+  # check input data to match function requirements
+  stopifnot (dfr_x_name != NULL)
+  stopifnot (is.data.frame (dfr_v) == TRUE)
+  stopifnot (is.data.frame (dfr_x) == TRUE)
+  stopifnot (ncol (dfr_x) == 1)
+
+  # naming discrete x factor
+  names(dfr_x) <- dfr_x_name
+  
+  # merging data frame
+  dfr_v <- merge (dfr_v, dfr_x, by = "row.names", all = TRUE)
+  
+  # cleaning data frame 
+  dfr_v <- dfr_v [complete.cases (dfr_v), ]
+  rownames (dfr_v) <- dfr_v$Row.names
+  dfr_v$Row.names  <- NULL
+  
+  # return data frame
+  return (dfr_v)
+}
+
+#' ##  Generate violin plots 
+#'   
+#' Generate violin plots from one discrete X and one continuous Y  
+get_violin <- function (dfr, dfr_x_name){
+  
+ # build the violin
+ violin <- ggplot (dfr, aes_string (x = dfr_x_name, y = column, color = dfr_x_name)) + 
+ geom_violin (scale = "area") +
+ stat_summary ( fun.data = mean_sdl, geom = "pointrange"))
+  
+ # return the violin 
+ return (violin)
+}
+
 #' <!-- #################################################################### -->
 #'
 #' # Session info
