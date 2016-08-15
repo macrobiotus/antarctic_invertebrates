@@ -1,7 +1,7 @@
 #' ---
 #' title: "Helper functions for invertebrate analysis."
 #' author: "Paul Czechowski"
-#' date: "August 11th, 2016"
+#' date: "August 15th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -516,7 +516,9 @@ barplot_samples <- function(ps_ob, tax_rank){
   return (ps_bar)
 }
 
-#' ## Add grouping factor for discrete X / continuous Y plots  
+#' ## Functions for violin plots
+#' 
+#' ### Add grouping factor for discrete X / continuous Y plots
 #'
 #' This is a "band-aid" function returning an data frame with a factor variable 
 #' if plotting by a grouping variable is desired, which is not (anymore) contained
@@ -545,20 +547,69 @@ add_discretex <- function (dfr_v, dfr_x, dfr_x_name = NULL) {
   return (dfr_v)
 }
 
-#' ##  Generate violin plots 
-#'   
-#' Generate violin plots from one discrete X and one continuous Y  
-get_violin <- function (dfr, dfr_x_name, dfr_y_name){
-  
- # build the violin
- violin <- ggplot (dfr, aes_string (x = dfr_x_name, y = dfr_y_name, color = dfr_x_name)) + 
- geom_violin (scale = "area") +
- stat_summary ( fun.data = mean_sdl, geom = "pointrange")
-  
+#' ### Create data frames for `get_violin()`
+#' 
+#' Create two-column data frame for `get_violin()`. Returns one two-column
+#' data frame from input arguments.
+get_viodf <- function (dfr_y_name, dfr, dfr_x_name){
+    
+# create two-column data frame 
+dfr <- dfr [ , c( dfr_y_name , dfr_x_name)]
+    
+# return two-column data frame
+return (dfr)
+}
 
- # return the violin 
- print(violin)
- # return ()
+#' ### Generate violin plots 
+#'   
+#' Generate violin plots from one discrete X and one continuous Y. Takes one
+#' two column data frame, returns one `ggplot2` object  
+get_violin <- function (dfr, dfr_x_name = NULL){
+
+  # checking input data
+  stopifnot (is.data.frame (dfr) == TRUE)
+  stopifnot (dfr_x_name != NULL)
+  stopifnot (ncol (dfr) == 2)
+  stopifnot (any (names (dfr) %in% dfr_x_name))
+  stopifnot (length (dfr_x_name) == 1)
+  
+  # build the violin
+  violin <- ggplot (dfr, aes_string (x = dfr_x_name, y = names(dfr) [which (names (dfr) != dfr_x_name)],
+    color = dfr_x_name)) + 
+  geom_violin (scale = "area") +
+  stat_summary ( fun.data = mean_sdl, geom = "pointrange")
+  
+  # return the violin 
+  return (violin)
+}
+
+#' ### Generate list of violin plot graphical objects 
+#'   
+#' Generate violin plots from one data frame and and on factor to by plotting by
+#' Returns list of `ggplot2` objects. Requires `get_viodf()` and `get_violin()`.
+get_violinplotlist <- function (dfr, dfr_x_name = NULL) {
+  
+  # for function building
+  # dfr <- obs
+  # dfr_x_name <- "AREA"
+  
+  # checking input data
+  stopifnot (is.data.frame (dfr) == TRUE)
+  stopifnot (dfr_x_name != NULL)
+  stopifnot (any (names (dfr) %in% dfr_x_name))
+  stopifnot (length (dfr_x_name) == 1)
+  
+  # create list of two-variable data frames
+  #   one of which is the variable to be plotted, the other the factor to group
+  #   by, all to be passed to get_violin()
+  dfr <- lapply ( names(dfr) [which (names (dfr) != dfr_x_name)], 
+    get_viodf, dfr, dfr_x_name )
+  
+  # generate violin plots from list of data frames
+  groblist <- lapply (dfr, get_violin, dfr_x_name)
+  
+  # return list of violin plots
+  return (groblist)
 }
 
 #' <!-- #################################################################### -->
