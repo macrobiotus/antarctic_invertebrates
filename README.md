@@ -30,7 +30,7 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 ### Spin-offs
 * `60_scar_combined.R` - fork of `50_eda.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log)
-* `61_scar_separate.R` - fork of `40_pca_and_ordinations.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log)
+* `61_scar_separate.R` - fork of `40_pca_and_ordinations.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log). Uses `ggcorplot()` now and adjusts colors, all files are written out to SCAR folder.
 
 ## Notes, change-log and progress
 
