@@ -29,16 +29,23 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * `50_eda.R` - violin plots implemented to visualize raw data, some analysis trials using the `vegan` package, particularly a CCoA approach as described in Wang _et al._ 2012 looks suitable.
 
 ### Spin-offs
-* `60_scar_combined.R` - fork of `50_eda.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemnted or not to be used at all (see changelog)
-* `61_scar_separate.R` - fork of `40_pca_and_ordinations.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemnted or not to be used at all (see changelog)
+* `60_scar_combined.R` - fork of `50_eda.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log)
+* `61_scar_separate.R` - fork of `40_pca_and_ordinations.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log)
 
-## Notes, changelog and progress progress
+## Notes, change-log and progress
 
-16.08.2016: the following code issues need to be addressed before adjusting the manuscript text:
+16.08.2016 - the following code issues need to be addressed before adjusting the manuscript text:
 
 * [ ] It is hard to conceive how the `css` scaled abundance data in `560_psob_18S_css_filtered.RData` is transformed, it looks like `log` transform. This transformation may to be reversed after modelling and before discussing results. To solve this question Paulson _et al._ (2013) or the Qiime developer forum should be consulted.
 * [ ] Any abundance correction (rarefaction or cumulative sum scaling) should happen after removal of chimeras, but before any subsequent filtering of blanks etc. This needs to be corroborated, e.g. by contacting the Qiime development team, then implemented appropriately, using the documentation of repository `pcm_modelling`
 * [ ] The analysis approach of Wang _et al._ 2012 should be tried, as it looks to give promising results. Otherwise perhaps mail Warton?
+
+17.08.2016 - meeting with Mark the following code issues need to be addressed before adjusting the manuscript text:
+
+* [ ] contact Laurence about issues with abundance rarefaction - or use richness.
+* [ ] use MDS plots for separate species
+* [ ] CSS and CCA look
+* [ ] mail plot to Mark
 
 ## Manuscript work
 
