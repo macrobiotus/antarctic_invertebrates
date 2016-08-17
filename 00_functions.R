@@ -476,6 +476,9 @@ plot_pcvars <- function (pcs, plotScreen = FALSE){
 #' but should work with any other object as well.
 get_corrplots <- function (obs, flt_obs) {
 
+  # message
+  message ("ggcotplot() will work better here")
+  
   # package loading
   require("corrplot")
 
@@ -485,6 +488,59 @@ get_corrplots <- function (obs, flt_obs) {
 
   # return list with plots
   return (list ( "obs" = obs, "flt_obs" = flt_obs))
+}
+
+
+#' ## Map phyloseq object
+#'
+#' The second function draws the sample map. Here I use package `phylogeo`, which
+#' itself seems to be more of a helper to negotiate functionality between `ggplot2`
+#' and `phyloseq`. Syntax options are limited, but it does the job. 
+#'
+#' * `phylogeo` needs correct names of long / lat variables in the `sample_data()`
+#'    component of the `phyloseq` objects. 
+#' *  Instead of centering the projection on the South Pole, it's centering is defined
+#'    by the range of the sample coordinates of the respective 'phyloseq` object.
+#' *  The plotting objects are returned and evaluated later.
+
+# draw a map with the sampling locations, incl. altering the names of the input
+#   phyloseq object
+map_samples <- function(phsq_ob, col_long = NULL, col_lat = NULL, subtitle = NULL){
+  
+  
+  # library("devtools")
+  # install_github("zachcp/phylogeo")
+  require (phylogeo)
+
+  # check input data
+  stopifnot (class (phsq_ob) == "phyloseq")
+  stopifnot (is.null (col_long) == FALSE)
+  stopifnot (is.null  (col_lat) == FALSE)
+     
+  # rename lat long columns in input phyloseq object to be recognized by 
+  #   phylogeo - veriable expectations are hard coded in phylogeo 
+  names (sample_data(phsq_ob))[names (sample_data(phsq_ob)) == col_lat] <- 
+    "Latitude"
+  names (sample_data(phsq_ob))[names (sample_data(phsq_ob)) == col_long] <-
+    "Longitude"
+  
+  # set latitude and longitude for projection centring
+  latitude  <- mean (range(sample_data (phsq_ob)$Latitude))
+  longitude <- mean (range(sample_data (phsq_ob)$Longitude))
+  
+  # define title and subtitle
+  plot.title <- "Sample Range"
+  plot.subtitle <- subtitle
+  
+  # draw a map, adjust coordinates and give a title, subtitle 
+  map <- map_phyloseq (phsq_ob, region="Antarctica", color="AREA", 
+    jitter=TRUE, jitter.x=2,jitter.y=2,) + 
+    coord_map( projection = "ortho", orientation = c(latitude, longitude, 0)) + 
+    ggtitle(bquote(atop(.(plot.title), atop(italic(.(plot.subtitle)), "")))) +
+    geom_path()
+     
+  # return object
+  return (map)
 }
 
 #' ## Plot phyloseq object
