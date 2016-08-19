@@ -48,7 +48,8 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * [ ] mail plot to Mark
 
 19.08.2016
-* [ ] Do not remove biologically empty samples in filtering steps, this may remove power from the analysis? 
+* [x] Do not remove biologically empty samples in filtering steps, this may remove power from the analysis?
+* [ ] Draw NMDS plots in `ggplo2()` as described in bookmarks.
 
 ## Manuscript work
 
