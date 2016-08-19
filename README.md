@@ -47,11 +47,14 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 * [ ] CSS and CCA look
 * [ ] mail plot to Mark
 
+19.08.2016
+* [ ] Do not remove biologically empty samples in filtering steps, this may remove power from the analysis? 
+
 ## Manuscript work
 
 ### Overview
 *  See `./160808_inv_env/Scratch/160704_revisions` for all old files used prior to first submission to Royal society.
-* See  `./pcm_inv_env/160808_inv_env/Scratch/160811_unused_R_code` for code residues from previous attemps.
+*  See  `./pcm_inv_env/160808_inv_env/Scratch/160811_unused_R_code` for code residues from previous attemps.
 *  See `/160808_inv_env/Scratch/unused_Qiime` for legacy `Qiime` objects.
 *  See `/160808_inv_env/Text` for the latest stages for manuscript submission, these should be used to continue the work on the manuscript.
 

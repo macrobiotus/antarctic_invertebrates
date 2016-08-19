@@ -490,7 +490,6 @@ get_corrplots <- function (obs, flt_obs) {
   return (list ( "obs" = obs, "flt_obs" = flt_obs))
 }
 
-
 #' ## Map phyloseq object
 #'
 #' The second function draws the sample map. Here I use package `phylogeo`, which

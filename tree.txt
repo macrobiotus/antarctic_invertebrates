@@ -9,9 +9,17 @@
 ├── 30_format_phyloseq.R
 ├── 40_pca_and_ordinations.pdf
 ├── 40_pca_and_ordinations.R
+├── 50_eda.pdf
+├── 50_eda.R
+├── 60_scar_combined.pdf
+├── 60_scar_combined.R
+├── 61_scar_seperate.pdf
+├── 61_scar_seperate.R
 ├── Figures
 │   ├── 40_pca_minerals.pdf
-│   └── 40_var_minerals.pdf
+│   ├── 40_var_minerals.pdf
+│   ├── 61_pca_minerals.pdf
+│   └── 61_var_minerals.pdf
 ├── move_documentation.sh
 ├── README.md
 ├── references.bib
@@ -94,7 +102,10 @@
         ├── 30_phsq_ob_comb.Rdata
         ├── 30_workspace.Rdata
         ├── 40_workspace.Rdata
+        ├── 50_workspace.Rdata
         ├── 560_psob_18S_css_filtered.RData
-        └── 560_psob_18S_default_filtered.RData
+        ├── 560_psob_18S_default_filtered.RData
+        ├── 60_workspace.Rdata
+        └── 61_workspace.Rdata
 
-15 directories, 82 files
+15 directories, 93 files
