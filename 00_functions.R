@@ -632,7 +632,8 @@ get_violin <- function (dfr, dfr_x_name = NULL){
   violin <- ggplot (dfr, aes_string (x = dfr_x_name, y = names(dfr) [which (names (dfr) != dfr_x_name)],
     color = dfr_x_name)) +
   geom_violin (scale = "area") +
-  stat_summary ( fun.data = mean_sdl, geom = "pointrange")
+  stat_summary (fun.data = mean_sdl, geom = "pointrange") +
+  theme(legend.position='none')
 
   # return the violin
   return (violin)
