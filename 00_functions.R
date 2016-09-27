@@ -385,7 +385,6 @@ remove_cocorrelated <- function (obs) {
   # Finding the co-correlations
   high_cor_obs <- findCorrelation (cor (obs), cutoff = .75)  # ident. highly. corr
 
-
   # Dividing the co-correlation set
   del_obs <- obs[, high_cor_obs]
   flt_obs <- obs[,-high_cor_obs]
@@ -506,9 +505,6 @@ get_corrplots <- function (obs, flt_obs) {
 #   phyloseq object
 map_samples <- function(phsq_ob, col_long = NULL, col_lat = NULL, subtitle = NULL){
   
-  
-  # library("devtools")
-  # install_github("zachcp/phylogeo")
   require (phylogeo)
 
   # check input data

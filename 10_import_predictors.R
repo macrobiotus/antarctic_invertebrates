@@ -1,7 +1,7 @@
 #' ---
 #' title: "Predictor import for R analysis"
 #' author: "Paul Czechowski"
-#' date: "August 11th, 2016"
+#' date: "September 27th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
