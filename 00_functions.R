@@ -1,7 +1,7 @@
 #' ---
-#' title: "Helper functions for invertebrate analysis."
+#' title: "Helper functions for invertebrate analysis"
 #' author: "Paul Czechowski"
-#' date: "August 15th, 2016"
+#' date: "September 27th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -10,8 +10,8 @@
 #'
 #' # Preface
 #'
-#' This code is tested using a raw R terminal. Path names are
-#' defined relative to the project directory. This code commentary is included
+#' This code is tested using a raw R terminal. Path names are defined relative 
+#' to the project directory. This code commentary is included
 #' in the R code itself and can be rendered at any stage using
 #' `rmarkdown::render ("./00_functions.R")`. Please check the
 #' session info at the end of the document for further notes on the coding environment.
@@ -28,16 +28,16 @@ remove_empty <- function(phsq_ob){
 
   # package loading
   require("phyloseq")
-
+  
   # filter Phylotypes
-	phsq_ob <- prune_taxa (taxa_sums (phsq_ob) > 0, phsq_ob)
-
-	# filter samples
-	phsq_ob <- prune_samples (sample_sums (phsq_ob) > 0, phsq_ob)
-
-	# return object
-	return (phsq_ob)
-	}
+  phsq_ob <- prune_taxa (taxa_sums (phsq_ob) > 0, phsq_ob)
+  
+  # filter samples
+  phsq_ob <- prune_samples (sample_sums (phsq_ob) > 0, phsq_ob)
+  
+  # return object
+  return (phsq_ob)
+}
 
 #' ## Agglomerate taxonomy
 #'
