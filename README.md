@@ -27,7 +27,7 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 ### Preparation in in POSIX shell
 
-- `0100_normlize_18S.sh` - abundance transformation
+- `0200_rarefy_alpha_18S.sh` - rarefaction plots to calibrate and control rarefaction in the next steps. Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
 
 ### Preparation in R
 
@@ -41,22 +41,32 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 - `40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here.
 - `50_eda.R` - violin plots implemented to visualize raw data, some analysis trials using the `vegan` package, particularly a CCoA approach as described in Wang _et al._ 2012 looks suitable.
 
+### Change-log and progress
+
+27.09.2016 - created and ran `0200_rarefy_alpha_18S.sh`
+
+### Todo
+
+- [x] It is hard to conceive how the `css` scaled abundance data in `560_psob_18S_css_filtered.RData` is transformed, it looks like `log` transform. This transformation may to be reversed after modelling and before discussing results. To solve this question Paulson _et al._ (2013) or the Qiime developer forum should be consulted. **Resolved by using rarefaction now.**
+- [x] Abundance correction should perhaps happen after removal of chimeras, but before any subsequent filtering of blanks etc. This should be discussed, e.g. by contacting the Qiime development team, then implemented appropriately, also using the documentation of repository `pcm_modelling`. **Resolved by using rarefaction instead of cumulative sum scaling (or other abundance correction methods).Rarefaction is performed analogously to CSS after filtering of very low-covered samples. Contaminating reads should be removed, to give the "true" diversity, before rarefaction.**
+- [ ] implement rarefaction at suitable depth
+- [ ] clean repository for submission (separate code and data as much as possible)
+- [ ] extend generate todo list from below
+- [ ] resort this file
+
 ### Spin-offs
 
 - `60_scar_combined.R` - fork of `50_eda.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log)
 - `61_scar_separate.R` - fork of `40_pca_and_ordinations.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log). Uses `ggcorplot()` now and adjusts colors, all files are written out to SCAR folder.
 
-## Notes, change-log and progress
+## Notes
 
 16.08.2016 - the following code issues need to be addressed before adjusting the manuscript text:
 
-- [ ] It is hard to conceive how the `css` scaled abundance data in `560_psob_18S_css_filtered.RData` is transformed, it looks like `log` transform. This transformation may to be reversed after modelling and before discussing results. To solve this question Paulson _et al._ (2013) or the Qiime developer forum should be consulted.
-- [ ] Any abundance correction (rarefaction or cumulative sum scaling) should happen after removal of chimeras, but before any subsequent filtering of blanks etc. This needs to be corroborated, e.g. by contacting the Qiime development team, then implemented appropriately, using the documentation of repository `pcm_modelling`
 - [ ] The analysis approach of Wang _et al._ 2012 should be tried, as it looks to give promising results. Otherwise perhaps mail Warton?
 
 17.08.2016 - meeting with Mark the following code issues need to be addressed before adjusting the manuscript text:
 
-- [ ] contact Laurence about issues with abundance rarefaction - or use richness.
 - [ ] use MDS plots for separate species
 - [ ] CSS and CCA look
 - [ ] mail plot to Mark
