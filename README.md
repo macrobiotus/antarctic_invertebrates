@@ -25,9 +25,11 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 ## Implemented steps and corresponding `R` and `bash` scripts
 
-### Preparation in in POSIX shell
+### Preparation in in POSIX shell using Qiime 1.9.1
 
-- `0200_rarefy_alpha_18S.sh` - rarefaction plots to calibrate and control rarefaction in the next steps. Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
+- `0200_rarefy_alpha_18S.sh` - **rarefaction plots to calibrate and control rarefaction in the next steps.** Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
+- `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefactions would give results that are perhaps not reproducible. There is no script to combine multiple OTU tables in Qiime 1.9.1 one anymore since this may not be statistically valid. OTU tables will need to be tested individually in R (somehow)? Input table is "decontaminated" and has samples with less then 100 sequences removed. Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file. Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
+- `0400_ckeck_multi_18S.sh` - **check rarefaction results in Qiime** since coverage differences are vast and rarefaction needs to be done at a low level, it is a goof idea to have some plots for furture reference (e.g. during R coding). This script uses the results from `0300_rarefy_multi_18S.sh` and will generate barplots for each of the rarefaction results. Writes to `./Zenodo/Rarefaction/0400_plots` accordingly. There still seem to be ample invertebrates in all samples, so one can contine the analysis.
 
 ### Preparation in R
 
@@ -43,7 +45,8 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 
 ### Change-log and progress
 
-27.09.2016 - created and ran `0200_rarefy_alpha_18S.sh`
+- 29.09.2016 - created and ran `0200_rarefy_alpha_18S.sh`
+- 29.09.2016 - created and ran `0300_rarefy_multi_18S.sh`
 
 ### Todo
 
