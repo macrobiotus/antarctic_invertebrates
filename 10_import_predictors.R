@@ -12,7 +12,7 @@
 #' 
 #' This code is tested using a raw R terminal. Path names are defined relative 
 #' to the project directory. This code commentary is included in the R code 
-#' itself and can be rendered at any stage using  `rmarkdown::render ("./10_import_predictors.R")`. 
+#' itself and can be rendered at any stage using  `rmarkdown::render ("./10_import_predictors.r")`. 
 #' Please check the session info below for
 #' further notes on the coding environment.
 #'

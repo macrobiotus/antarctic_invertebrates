@@ -28,7 +28,7 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 ### Preparation in in POSIX shell using Qiime 1.9.1
 
 - `0200_rarefy_alpha_18S.sh` - **rarefaction plots to calibrate and control rarefaction in the next steps.** Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
-- `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefactions would give results that are perhaps not reproducible. There is no script to combine multiple OTU tables in Qiime 1.9.1 one anymore since this may not be statistically valid. OTU tables will need to be tested individually in R (somehow)? Input table is "decontaminated" and has samples with less then 100 sequences removed. Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file. Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
+- `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefactions would give results that are perhaps not reproducible. ~~There is no script to combine multiple OTU tables in Qiime 1.9.1 one anymore since this may not be statistically valid.~~ Thus, the input file has samples removed with less then 1000 sequences and OTUs removed with less then 100 sequences, input file is also "decontaminated". Rarefaction results should thus always give more or less similar results. Additionally, OTU tables are plotted individually in the next script. Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file. Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
 - `0400_ckeck_multi_18S.sh` - **check rarefaction results in Qiime** since coverage differences are vast and rarefaction needs to be done at a low level, it is a goof idea to have some plots for furture reference (e.g. during R coding). This script uses the results from `0300_rarefy_multi_18S.sh` and will generate barplots for each of the rarefaction results. Writes to `./Zenodo/Rarefaction/0400_plots` accordingly. There still seem to be ample invertebrates in all samples, so one can contine the analysis.
 
 ### Preparation in R
@@ -36,57 +36,36 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 - `00_functions.R` - Helper functions for analysis.
 - `10_import_predictors.R` - Predictor import from `.csv` to `.Rdata`
 - `20_format_predictors.R` - Predictor filtering, naming, and type setting.
-- `30_format_phyloseq.R` - Integration of `css` abundance-corrected 18S originally from (and documented in) repository `pcm_modelling`. `sample_data()` component is erased and substituted with formatted predictors from above.
+- `30_format_phyloseq.R` - ~~Integration of `css` abundance-corrected 18S originally from (and documented in) repository `pcm_modelling`. `sample_data()` component is erased and substituted with formatted predictors from above.~~
 
 ### Analysis
 
-- `40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here.
-- `50_eda.R` - violin plots implemented to visualize raw data, some analysis trials using the `vegan` package, particularly a CCoA approach as described in Wang _et al._ 2012 looks suitable.
+- ~~`40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here.~~
+- ~~`50_eda.R` - violin plots implemented to visualize raw data, some analysis trials using the `vegan` package, particularly a CCoA approach as described in Wang _et al._ 2012 looks suitable.~~
 
-### Change-log and progress
+## Work progress
 
-- 29.09.2016 - created and ran `0200_rarefy_alpha_18S.sh`
-- 29.09.2016 - created and ran `0300_rarefy_multi_18S.sh`
+### Changelog
+- **29.09.2016** - created and ran `0200_rarefy_alpha_18S.sh` and  `0300_rarefy_multi_18S.sh`.
+- **30.09.2016** - created and ran `0400_ckeck_multi_18S.sh`, checked `10_import_predictors.R`, and  `20_format_predictors.R`, deleted unused documentation, started `30_format_phyloseq.R`.
 
 ### Todo
-
-- [x] It is hard to conceive how the `css` scaled abundance data in `560_psob_18S_css_filtered.RData` is transformed, it looks like `log` transform. This transformation may to be reversed after modelling and before discussing results. To solve this question Paulson _et al._ (2013) or the Qiime developer forum should be consulted. **Resolved by using rarefaction now.**
-- [x] Abundance correction should perhaps happen after removal of chimeras, but before any subsequent filtering of blanks etc. This should be discussed, e.g. by contacting the Qiime development team, then implemented appropriately, also using the documentation of repository `pcm_modelling`. **Resolved by using rarefaction instead of cumulative sum scaling (or other abundance correction methods).Rarefaction is performed analogously to CSS after filtering of very low-covered samples. Contaminating reads should be removed, to give the "true" diversity, before rarefaction.**
-- [ ] implement rarefaction at suitable depth
+- [ ] finish `30_format_phyloseq.R`
+- [ ] design main analysis file
+- [ ] update R scripts in overview file
+- [ ] use MDS plot to inform on sample variability
+- [ ] Draw NMDS plots in `ggplo2()` as described in bookmarks?
+- [ ] The analysis approach of Wang _et al._ 2012 could be tried, as it looks to give promising results. Otherwise perhaps mail Warton?
 - [ ] clean repository for submission (separate code and data as much as possible)
-- [ ] extend generate todo list from below
-- [ ] resort this file
+- [ ] remove files unrelated to this manuscript to local one this project is coded and or adjust `.gitignore` file.
 
-### Spin-offs
-
-- `60_scar_combined.R` - fork of `50_eda.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log)
-- `61_scar_separate.R` - fork of `40_pca_and_ordinations.R` for presentation at SCAR conference. Analysis on species involving species abundance uses `css` abundance data, which might need might be wrongly implemented or not to be used at all (see change-log). Uses `ggcorplot()` now and adjusts colors, all files are written out to SCAR folder.
-
-## Notes
-
-16.08.2016 - the following code issues need to be addressed before adjusting the manuscript text:
-
-- [ ] The analysis approach of Wang _et al._ 2012 should be tried, as it looks to give promising results. Otherwise perhaps mail Warton?
-
-17.08.2016 - meeting with Mark the following code issues need to be addressed before adjusting the manuscript text:
-
-- [ ] use MDS plots for separate species
-- [ ] CSS and CCA look
-- [ ] mail plot to Mark
-
-19.08.2016
-
-- [x] Do not remove biologically empty samples in filtering steps, this may remove power from the analysis?
-- [ ] Draw NMDS plots in `ggplo2()` as described in bookmarks.
+### Done
+- [x] extend generate todo list from below and resort this file
+- [x] implement rarefaction at suitable depth
+- [x]  Abundance correction should perhaps happen after removal of chimeras, but before any subsequent filtering of blanks etc. This should be discussed, e.g. by contacting the Qiime development team, then implemented appropriately, also using the documentation of repository `pcm_modelling`. **Resolved by using rarefaction instead of cumulative sum scaling (or other abundance correction methods).Rarefaction is performed analogously to CSS after filtering of very low-covered samples. Contaminating reads should be removed, to give the "true" diversity, before rarefaction.**
+- [x] It is hard to conceive how the `css` scaled abundance data in `560_psob_18S_css_filtered.RData` is transformed, it looks like `log` transform. This transformation may to be reversed after modelling and before discussing results. To solve this question Paulson _et al._ (2013) or the Qiime developer forum should be consulted. **Resolved by using rarefaction now.**
 
 ## Manuscript work
-
-### Overview
-
-- See `./160808_inv_env/Scratch/160704_revisions` for all old files used prior to first submission to Royal society.
-- See `./pcm_inv_env/160808_inv_env/Scratch/160811_unused_R_code` for code residues from previous attemps.
-- See `/160808_inv_env/Scratch/unused_Qiime` for legacy `Qiime` objects.
-- See `/160808_inv_env/Text` for the latest stages for manuscript submission, these should be used to continue the work on the manuscript.
 
 ### Comment to address in by code and manuscript text
 
