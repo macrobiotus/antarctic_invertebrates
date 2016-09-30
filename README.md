@@ -50,6 +50,8 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 - **30.09.2016** - created and ran `0400_ckeck_multi_18S.sh`, checked `10_import_predictors.R`, and  `20_format_predictors.R`, deleted unused documentation, started `30_format_phyloseq.R`.
 
 ### Todo
+- [ ] write write script to make script 200 usable with 560 default
+- [ ] update documentation
 - [ ] finish `30_format_phyloseq.R`
 - [ ] design main analysis file
 - [ ] update R scripts in overview file
