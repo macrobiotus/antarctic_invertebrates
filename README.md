@@ -1,5 +1,9 @@
 # Environmental gradients and invertebrate distribution in the Prince Charles Mountains, East Antarctica.
 
+### Disclaimer
+
+**THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.**
+
 ## Introduction
 
 The following code represents analyses conducted for the manuscript titled **"Age-related environmental gradients determine invertebrate distribution in the Prince Charles Mountains, East Antarctica."** Use `git clone` to download this repository to your system. Also include all elements from the Zenodo repository in your local copy of the repository, by moving them into a folder named `Zenodo`. Please refer to `tree.txt` if you would like to confirm that you have re-built the necessary directory structure. **Please do not execute the scripts on your system without looking at them first.**
@@ -10,48 +14,35 @@ This is the fourth recoding of the analysis for this manuscript.
 
 - The initial one, from June 2015, was incomprehensible for any reader apart from the author and made it complicated to include changes requested by both reviewers.
 - The second version of the analysis (16th July 2016) improved on this to some extend, but not enough.
-- The subsequent, third re-write (started 23rd August, 2016) used appropriate new transformation techniques which proved to be not down-stream compatible with analyses implemented in R.
-- This is the fourth re-code. It was started using cumulative sum scaling (CSS), as implemented in Qiime 1.9., and created on Ubuntu 16.04\. The code has since been moved over to an Apple computer, running GNU and BSD POSIX tools and Qiime 1.9.1 in macOS 10.11.6\. This code used CSS'd 18S phylotype data data (COI has been dropped) generated recently (Feb. 2016) from repository `pcm_modelling`. Since the CSS approach didn't work, the code now uses the Qiime generated files from ported repository `pcm_modelling_mac` and traditional abundance correction methods (as previously available in Qiime 1.8).
-
-### Disclaimer
-
-**THIS SOFTWARE IS PROVIDED "AS IS" AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.**
+- The subsequent, third re-write (started 23rd August, 2016) used new transformation techniques which proved to be not down-stream compatible with analyses implemented in R.
+- This re-code was started using cumulative sum scaling (CSS), as implemented in Qiime 1.9., and created on Ubuntu 16.04. The code has since been moved over to an Apple computer, running GNU and BSD POSIX tools and Qiime 1.9.1 in macOS 10.11.6. This code used CSS'd 18S phylotype data data (COI has been dropped) generated recently (Feb. 2016) from repository `pcm_modelling`. Since the CSS approach didn't work, the code now uses data with unadjusted abundance values from repository `pcm_modelling_mac`. Rarefaction is provided by R Package `phyloseq`, all in all because one can still not write `.biom`objects back to the system reliably once they have been imported into R and the input objects are (only) available in R
+(without re-running much pre-processing code).
 
 ## Analysis documentation
 
-Some shell scripts needed to be ported from Ubuntu 16.04 to macOS as implemented in repository `pcm_modelling_mac`. Check script comments and `./Documentataion` for diagrams.
+Check script comments and `./Documentation` for diagrams. Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed. Also check the `.git` commit messages.
 
-Each `R` script can generate `.pdf` reports. The code to generate those reports is contained within each `R` script. The `.pdf` files were moved to the Zenodo target folder via `./move_documentation.sh`. You can re-create these reports if you have `pandoc` and `R` package `rmarkdown` installed. Also check the `.git` commit messages.
+## Script overview
 
-## Implemented steps and corresponding `R` and `bash` scripts
-
-### Preparation in in POSIX shell using Qiime 1.9.1
-
-- `0200_rarefy_alpha_18S.sh` - **rarefaction plots to calibrate and control rarefaction in the next steps.** Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
-- `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefactions would give results that are perhaps not reproducible. ~~There is no script to combine multiple OTU tables in Qiime 1.9.1 one anymore since this may not be statistically valid.~~ Thus, the input file has samples removed with less then 1000 sequences and OTUs removed with less then 100 sequences, input file is also "decontaminated". Rarefaction results should thus always give more or less similar results. Additionally, OTU tables are plotted individually in the next script. Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file. Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
-- `0400_ckeck_multi_18S.sh` - **check rarefaction results in Qiime** since coverage differences are vast and rarefaction needs to be done at a low level, it is a goof idea to have some plots for furture reference (e.g. during R coding). This script uses the results from `0300_rarefy_multi_18S.sh` and will generate barplots for each of the rarefaction results. Writes to `./Zenodo/Rarefaction/0400_plots` accordingly. There still seem to be ample invertebrates in all samples, so one can contine the analysis.
-
-### Preparation in R
+### Data preparation
 
 - `00_functions.R` - Helper functions for analysis.
 - `10_import_predictors.R` - Predictor import from `.csv` to `.Rdata`
 - `20_format_predictors.R` - Predictor filtering, naming, and type setting.
-- `30_format_phyloseq.R` - ~~Integration of `css` abundance-corrected 18S originally from (and documented in) repository `pcm_modelling`. `sample_data()` component is erased and substituted with formatted predictors from above.~~
+- `30_format_phyloseq.R` - Input data has bee filtered to contain samples with more then 1000 sequences and Phylotypes with more then 100 sequences. This input data was generated in `pcm_modelling`, and documented in the overview diagrams. This script performs rarefaction, to a depth of 1010 sequences as established using Qiime tools (see lagacy sehll scripts below.) Nom-invertebrates not pertinent to the analysis are removed, sampling sites not pertinent to the analysis are removed. Formatted predictors are included, `phyloseq`slots are slighlty renamed for clarity in charts and coide of downstream analysis.
 
 ### Analysis
 
-- ~~`40_pca_and_ordinations.R` - some useful code exploring PCA and ordination with the data, but no significant results here.~~
-- ~~`50_eda.R` - violin plots implemented to visualize raw data, some analysis trials using the `vegan` package, particularly a CCoA approach as described in Wang _et al._ 2012 looks suitable.~~
+- nothing yet, but will be building on existing code
 
 ## Work progress
 
 ### Changelog
 - **29.09.2016** - created and ran `0200_rarefy_alpha_18S.sh` and  `0300_rarefy_multi_18S.sh`.
 - **30.09.2016** - created and ran `0400_ckeck_multi_18S.sh`, checked `10_import_predictors.R`, and  `20_format_predictors.R`, deleted unused documentation, started `30_format_phyloseq.R`.
+- **02.09.2016** - there is currently no way to export properly formatted `.biom` tables to the shell (some function may be available in R package `biomformat`). All shell scripts and R warappers for shell scripts where moved to scratch. Doing rarefaction with `phyloseq` within R instead.
 
 ### Todo
-- [ ] write write script to make script 200 usable with 560 default
-- [ ] update documentation
 - [ ] finish `30_format_phyloseq.R`
 - [ ] design main analysis file
 - [ ] update R scripts in overview file
@@ -62,9 +53,10 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 - [ ] remove files unrelated to this manuscript to local one this project is coded and or adjust `.gitignore` file.
 
 ### Done
+- [x] tried rarefaction in Qiime and re-integration into R: no way to export `.biom` files to shell for Qiime. All Qiime work on `.biom` tables has to happen before R import.
 - [x] extend generate todo list from below and resort this file
 - [x] implement rarefaction at suitable depth
-- [x]  Abundance correction should perhaps happen after removal of chimeras, but before any subsequent filtering of blanks etc. This should be discussed, e.g. by contacting the Qiime development team, then implemented appropriately, also using the documentation of repository `pcm_modelling`. **Resolved by using rarefaction instead of cumulative sum scaling (or other abundance correction methods).Rarefaction is performed analogously to CSS after filtering of very low-covered samples. Contaminating reads should be removed, to give the "true" diversity, before rarefaction.**
+- [x] Abundance correction should perhaps happen after removal of chimeras, but before any subsequent filtering of blanks etc. This should be discussed, e.g. by contacting the Qiime development team, then implemented appropriately, also using the documentation of repository `pcm_modelling`. **Resolved by using rarefaction instead of cumulative sum scaling (or other abundance correction methods).Rarefaction is performed analogously to CSS after filtering of very low-covered samples. Contaminating reads should be removed, to give the "true" diversity, before rarefaction.**
 - [x] It is hard to conceive how the `css` scaled abundance data in `560_psob_18S_css_filtered.RData` is transformed, it looks like `log` transform. This transformation may to be reversed after modelling and before discussing results. To solve this question Paulson _et al._ (2013) or the Qiime developer forum should be consulted. **Resolved by using rarefaction now.**
 
 ## Manuscript work
@@ -92,3 +84,14 @@ Each `R` script can generate `.pdf` reports. The code to generate those reports 
 - [ ] SI check "metabarcoding" has been inserted everywhere
 - [ ] SI check references are inserted properly
 - [ ] SI check if tables are inserted properly
+
+## Legacy scripts
+
+
+### Preparation in in POSIX shell using Qiime 1.9.1
+
+Shell code is not needed, but had been implemneted to rarefy data using Qiime. Rarefaction is now accomplished using `phyloseq`.
+
+- `0200_rarefy_alpha_18S.sh` - **rarefaction plots to calibrate and control rarefaction in the next steps.** Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
+- `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefactions would give results that are perhaps not reproducible. ~~There is no script to combine multiple OTU tables in Qiime 1.9.1 one anymore since this may not be statistically valid.~~ Thus, the input file has samples removed with less then 1000 sequences and OTUs removed with less then 100 sequences, input file is also "decontaminated". Rarefaction results should thus always give more or less similar results. Additionally, OTU tables are plotted individually in the next script. Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file. Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
+- `0400_ckeck_multi_18S.sh` - **check rarefaction results in Qiime** since coverage differences are vast and rarefaction needs to be done at a low level, it is a goof idea to have some plots for furture reference (e.g. during R coding). This script uses the results from `0300_rarefy_multi_18S.sh` and will generate barplots for each of the rarefaction results. Writes to `./Zenodo/Rarefaction/0400_plots` accordingly. There still seem to be ample invertebrates in all samples, so one can contine the analysis.
