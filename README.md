@@ -27,32 +27,39 @@ Check script comments and `./Documentation` for diagrams. Each `R` script can ge
 ### Data preparation
 
 - `00_functions.R` - Helper functions for analysis.
-- `10_import_predictors.R` - Predictor import from `.csv` to `.Rdata`
-- `20_format_predictors.R` - Predictor filtering, naming, and type setting.
-- `30_format_phyloseq.R` - Input data has bee filtered to contain samples with more then 1000 sequences and Phylotypes with more then 100 sequences. This input data was generated in `pcm_modelling`, and documented in the overview diagrams. This script performs rarefaction, to a depth of 1010 sequences as established using Qiime tools (see lagacy sehll scripts below.) Nom-invertebrates not pertinent to the analysis are removed, sampling sites not pertinent to the analysis are removed. Formatted predictors are included, `phyloseq`slots are slighlty renamed for clarity in charts and coide of downstream analysis.
+- `10_import_predictors.r` - Predictor import from `.csv` to `.Rdata`
+- `20_format_predictors.r` - Predictor filtering, naming, and type setting. Export to `.Rdata`.
+- `25_rarify_phyloseq.r`- rarefaction of `./Zenodo/Rarefaction/18S_btable147_counts_default.biom`, using shell scripts, and storing this modified abundance inforemation in `./Zenodo/R_Objects/560_psob_18S_rarefied_filtered.RData`, thus substituting the read-in `./R_Objects/560_psob_18S_default_filtered.RData` (uncorrected abundance). Uses several shell scripts as documented in this script and the shell scripts:
+  - `0200_rarefy_alpha_18S.sh` - **rarefaction plots to calibrate and control rarefaction in the next steps.** Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` originally of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.pdf` renders of plots are stored in `./Zenodo/Documentation`) - **qiime mapping file is linked in from `pcm_modelling_mac`**
+  - `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefaction run gives varaible results if reapeated. There is no script to combine multiple OTU tables in Qiime 1.9.1 anymore since this may not be statistically valid. Thus, the input file has samples removed with less then 1000 sequences and OTUs removed with less then 100 sequences, input file is also "decontaminated". Rarefaction results should thus always give more or less similar results. Additionally, all 10 rarefaction runs are plotted individually in the next script (in R on arbirtray table is used). Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file (uncurates). Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
+  - `0400_ckeck_multi_18S.sh` - **check rarefaction results in Qiime** since coverage differences are vast and rarefaction needs to be done at a low level, it is a good idea to have some plots for furture reference (e.g. during R coding). This script uses the results from `0300_rarefy_multi_18S.sh` and will generate barplots for each of the rarefaction results. Writes to `./Zenodo/Rarefaction/0400_plots` accordingly. There still seem to be ample invertebrates in all samples, so one can contine the analysis.
+
+- `30_format_phyloseq.r` - Input data has bee filtered to contain samples with more then 1000 sequences and Phylotypes with more then 100 sequences. Reads in `./Zenodo/R_Objects/560_psob_18S_rarefied_filtered.RData`, and writes out `.Rdata`with with script number.  Non-invertebrates and invertebrates not pertinent to the analysis are removed, sampling sites not pertinent to the analysis are removed. Formatted predictors are included, `phyloseq` slots are slighlty renamed for clarity in charts and coide of downstream analysis. All empty phylotypes and samples are purged. Some counting and basic numbers are available from here.
 
 ### Analysis
 
-- nothing yet, but will be building on existing code
+- `40_main_analysis.r` - nothing new yet, but will be building on existing code
 
 ## Work progress
 
 ### Changelog
+- **03.10.2016** - created, tested and ran `25_rarify_phyloseq.r`, which took some time. Opened `40_main_analysis.r`.
 - **29.09.2016** - created and ran `0200_rarefy_alpha_18S.sh` and  `0300_rarefy_multi_18S.sh`.
 - **30.09.2016** - created and ran `0400_ckeck_multi_18S.sh`, checked `10_import_predictors.R`, and  `20_format_predictors.R`, deleted unused documentation, started `30_format_phyloseq.R`.
 - **02.09.2016** - there is currently no way to export properly formatted `.biom` tables to the shell (some function may be available in R package `biomformat`). All shell scripts and R warappers for shell scripts where moved to scratch. Doing rarefaction with `phyloseq` within R instead.
 
 ### Todo
-- [ ] finish `30_format_phyloseq.R`
 - [ ] design main analysis file
 - [ ] update R scripts in overview file
 - [ ] use MDS plot to inform on sample variability
-- [ ] Draw NMDS plots in `ggplo2()` as described in bookmarks?
+- [ ] Draw NMDS plots in `ggplot2()` as described in bookmarks?
 - [ ] The analysis approach of Wang _et al._ 2012 could be tried, as it looks to give promising results. Otherwise perhaps mail Warton?
 - [ ] clean repository for submission (separate code and data as much as possible)
 - [ ] remove files unrelated to this manuscript to local one this project is coded and or adjust `.gitignore` file.
 
 ### Done
+- [x] finished `25_rarify_phyloseq.r`
+- [x] finished `30_format_phyloseq.R`
 - [x] tried rarefaction in Qiime and re-integration into R: no way to export `.biom` files to shell for Qiime. All Qiime work on `.biom` tables has to happen before R import.
 - [x] extend generate todo list from below and resort this file
 - [x] implement rarefaction at suitable depth
@@ -91,7 +98,3 @@ Check script comments and `./Documentation` for diagrams. Each `R` script can ge
 ### Preparation in in POSIX shell using Qiime 1.9.1
 
 Shell code is not needed, but had been implemneted to rarefy data using Qiime. Rarefaction is now accomplished using `phyloseq`.
-
-- `0200_rarefy_alpha_18S.sh` - **rarefaction plots to calibrate and control rarefaction in the next steps.** Writes to folder `./Zenodo/Rarefaction/` with script number. Summary of input table is also provided. Source file is decontaminated `.biom` table from `bioms18S/18S_btable147_counts_default.biom` of `pcm_modelling` repository. `0000_*` config files in parent directory specify rarefaction parameters and path to Qiime environment. Based on Goods coverage, employing a rarefaction depth of ~1000 sequences will be enough to observe all expected taxa in a sample. Using this low values enables inclusion of samples from Mount Menzies. (`.fdf` renders of plots are stored in `./Zenodo/Documentation`)
-- `0300_rarefy_multi_18S.sh` - **perform multiple rarefactions for R analysis.** Rarefaction is used instead of other abundance methods corrections. A single rarefactions would give results that are perhaps not reproducible. ~~There is no script to combine multiple OTU tables in Qiime 1.9.1 one anymore since this may not be statistically valid.~~ Thus, the input file has samples removed with less then 1000 sequences and OTUs removed with less then 100 sequences, input file is also "decontaminated". Rarefaction results should thus always give more or less similar results. Additionally, OTU tables are plotted individually in the next script. Based on the plots of the previous script a rarefaction depth of 1010 sequences is chosen. Lineage information is carried over from input file. Empty Phylotypes are not removed from the input tables, to avoid potential downstream hick-ups due to inconsistent table dimensions.
-- `0400_ckeck_multi_18S.sh` - **check rarefaction results in Qiime** since coverage differences are vast and rarefaction needs to be done at a low level, it is a goof idea to have some plots for furture reference (e.g. during R coding). This script uses the results from `0300_rarefy_multi_18S.sh` and will generate barplots for each of the rarefaction results. Writes to `./Zenodo/Rarefaction/0400_plots` accordingly. There still seem to be ample invertebrates in all samples, so one can contine the analysis.

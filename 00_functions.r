@@ -465,7 +465,6 @@ plot_pcvars <- function (pcs, plotScreen = FALSE){
   if (plotScreen){
     gp
   }
-
   return(gp)
 }
 
