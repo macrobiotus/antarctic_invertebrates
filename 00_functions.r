@@ -551,8 +551,8 @@ barplot_samples <- function(ps_ob, tax_rank){
   stopifnot (tax_rank %in% rank_names (ps_ob))
 
   # define title and subtitle
-  plot.title    <- "Taxonomic Composition"
-  plot.subtitle <- "18S rDNA: CSS corrected (upper) or rank presence (lower) "
+  plot.title    <- "Invertebrate Composition"
+  plot.subtitle <- "18S rDNA rarefied read counts (upper) or rank presence (lower) "
 
   # draw a barplot, and give a title, subtitle
   #   re-set "facet_grid" if desirable, doesn't make much sense here
