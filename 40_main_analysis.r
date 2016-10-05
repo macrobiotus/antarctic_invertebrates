@@ -555,11 +555,11 @@ dev.off()
 #' Class beta diversity, expressed as distance `z = (log(2)-log(2*a+b+c)+log(a+b+c))/log(2)`
 #' may be function of group means of all mineral and chemical variables. 
 adonis (formula =  betadiver ( spc, "z") ~ AMMN + NITR + POTA + SLPH + PHOS + 
-  CARB + PHHO + QUTZ + FDSP + PRAG + MICA + DOLO + KAOC, data = obs, perm = 9999)
+  CARB + PHHO + QUTZ + FDSP + MICA + DOLO + KAOC, data = obs, perm = 9999)
 
 #' ## `envfit` trials
 envfit(spc ~ AMMN + NITR + POTA + SLPH + PHOS + CARB + PHHO + QUTZ + FDSP + 
-  PRAG + MICA + DOLO + KAOC, data = obs, perm = 9999)
+  MICA + DOLO + KAOC, data = obs, perm = 9999)
 
 #' ## `CCorA` trials
 #'
@@ -587,7 +587,7 @@ biplot(out, plot.type="biplots", xlabs = NULL) # Replace object names by numbers
 #'
 #' Saved are object created by this script as well as command history and work-space
 #' image.
-save.image (path_workspace)                    # work-space
+save.image (path_workspace_b)                    # work-space
 
 #' # Session info
 #' 

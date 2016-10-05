@@ -2,20 +2,11 @@
 # Ignore these directories #
 ############################
 # This folder is at Zenodo
-Zenodo
+Zenodo/
 
 # These folders are local only #
 ################################
-Scratch
-
-# pdf reports #
-###################
-# *.pdf
-
-# compressed data #
-###################
-# will be regenerated or is unnecessary
-# *.RData
+Scratch/
 
 # Logs and databases #
 ######################
