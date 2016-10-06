@@ -513,7 +513,7 @@ spc <- cmpl_phylotypes(spc, obs)
 #' an excellent representation in reduced dimensions, > 0.1 is great, > 0.2 is 
 #' fair, and stress > 0.3 provides a poor representation. Inspect the generated 
 #' model in the end. 
-spc_mds <- metaMDS(spc, distance = "euclid" ,  k = 2, try = 1000, trymax = 2000, 
+spc_mds <- metaMDS(spc, distance = "bray" ,  k = 2, try = 1000, trymax = 2000, 
   noshare = FALSE, wascores = TRUE, trace = 0, plot = FALSE, expand = TRUE, 
   binary = FALSE)
 
@@ -532,7 +532,7 @@ ordiellipse(spc_mds, shorten_groups (grp, obs) , display = "sites", kind = "se",
   conf = 0.95, label = T,  col = c ("red", "chartreuse4", "cornflowerblue"))
 orditorp (spc_mds, display = "species", col="deepskyblue4", air = 0.01, cex = 1.0)
 with (obs, ordisurf (spc_mds, SLPH, add = TRUE, col = "darkgoldenrod4" ))
-with (obs, ordisurf (spc_mds, AMMN, add = TRUE, col = "orange"))
+# with (obs, ordisurf (spc_mds, AMMN, add = TRUE, col = "orange"))
 
 # write data to disk (slooooooow)
 pdf(path_mds_hip, height = 9, width = 9)
@@ -543,7 +543,7 @@ ordiellipse(spc_mds, shorten_groups (grp, obs) , display = "sites", kind = "se",
   conf = 0.95, label = T,  col = c ("red", "chartreuse4", "cornflowerblue"))
 orditorp (spc_mds, display = "species", col="deepskyblue4", air = 0.01, cex = 1.0)
 with (obs, ordisurf (spc_mds, SLPH, add = TRUE, col = "darkgoldenrod4" ))
-with (obs, ordisurf (spc_mds, AMMN, add = TRUE, col = "orange"))
+# with (obs, ordisurf (spc_mds, AMMN, add = TRUE, col = "orange"))
 dev.off()
 
 #' <!-- #################################################################### -->
@@ -555,11 +555,11 @@ dev.off()
 #' Class beta diversity, expressed as distance `z = (log(2)-log(2*a+b+c)+log(a+b+c))/log(2)`
 #' may be function of group means of all mineral and chemical variables. 
 adonis (formula =  betadiver ( spc, "z") ~ AMMN + NITR + POTA + SLPH + PHOS + 
-  CARB + PHHO + QUTZ + FDSP + MICA + DOLO + KAOC, data = obs, perm = 9999)
+  CARB + PHHO + QUTZ + FDSP + TTAN + MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
 
 #' ## `envfit` trials
 envfit(spc ~ AMMN + NITR + POTA + SLPH + PHOS + CARB + PHHO + QUTZ + FDSP + 
-  MICA + DOLO + KAOC, data = obs, perm = 9999)
+   TTAN + MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
 
 #' ## `CCorA` trials
 #'
