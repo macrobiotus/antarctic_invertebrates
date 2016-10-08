@@ -57,7 +57,7 @@ rm(list=ls())          # clear R environment
 #'
 # path to filtered, abundance corrected data with curated taxonomy and field
 #   measurements
-path_phsq_ob <- file.path ("Zenodo/R_Objects/30_phsq_ob.Rdata",
+path_phsq_ob <- file.path ("Zenodo/R_Objects/35_phsq_ob.Rdata",
                            fsep = .Platform$file.sep) 
 #' ### Export locations
 #'
@@ -309,6 +309,47 @@ minl <- matr_ana[["obs"]] [ , minerals]; matr_ana[["obs"]] [ , minerals] <- NULL
 
 
 #' <!-- #################################################################### -->
+
+
+# Check age vs conductivity and sulphur
+
+# isolate ages seperately beacuse get list prunes undefined values across the whole returened
+#  table
+# ages <- get_list (phsq_ob, tax_rank = "Class", pred_cat = c (raw_ages), pres_abs = FALSE)
+# 
+# extract ages from list into datafraem to work with them more easily, THERE
+# IS A SEMICOLON HERE
+# ages <- ages[["obs"]] [ , raw_ages]; ages[["obs"]] [ , raw_ages] <- NULL
+# 
+# do the row means acrioss higher ab lower estimates, only one column is desired
+#  for further analysis
+# ages <- data.frame(rowMeans (ages[ ,1:2]))
+# 
+# slph <- subset(chem, select=c("SLPH"))
+# 
+# str(slph)
+# str(ages)
+# 
+# sa <- merge(slph,ages,by="row.names",all.x=TRUE)
+# sa[1] <- NULL
+# names(sa) <- c("sulphur","age") 
+# 
+# sa <- sa[ complete.cases(sa) , ]
+# 
+# lm1 <- lm(sulphur ~ age, data=sa)
+# summary(lm1)
+# plot(lm1)
+# res <- residuals(lm1)
+# fits <- fitted(lm1)
+# 
+# plot(res ~ fits)
+# plot(res ~ age, data=sa)
+
+
+#' <!-- #################################################################### -->
+
+
+#' <!-- #################################################################### -->
 #' 
 #' ##  Checking soil mineral and soil geochemical data
 #'
@@ -555,29 +596,40 @@ dev.off()
 #' Class beta diversity, expressed as distance `z = (log(2)-log(2*a+b+c)+log(a+b+c))/log(2)`
 #' may be function of group means of all mineral and chemical variables. 
 adonis (formula =  betadiver ( spc, "z") ~ AMMN + NITR + POTA + SLPH + PHOS + 
-  CARB + PHHO + QUTZ + FDSP + TTAN + MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
+  CARB + PHHO + QUTZ + FDSP + MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
 
 #' ## `envfit` trials
 envfit(spc ~ AMMN + NITR + POTA + SLPH + PHOS + CARB + PHHO + QUTZ + FDSP + 
-   TTAN + MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
+   MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
 
-#' ## `CCorA` trials
+
+#' <!-- #################################################################### -->
+
+
+#' ## `cca` trials
 #'
-#' _"Canonical correlation analysis, following Brian McArdle's unpublished graduate
-#' course notes, plus improvements to allow the  calculations in the case of very
-#' sparse and collinear matrices, and permutation test of Pillai's trace 
-#' statistic."_
-out <- CCorA (decostand (spc, "hel"), obs, stand.Y = FALSE, stand.X = TRUE,
-  permutations = 10000)
-biplot(out, "ob")                 # Two plots of objects
-biplot(out, "v", cex=c(0.7,0.6))  # Two plots of variables
-biplot(out, "ov", cex=c(0.7,0.6)) # Four plots (2 for objects, 2 for variables)
-biplot(out, "b", cex=c(0.7,0.6))  # Two biplots
-biplot(out, xlabs = NA, plot.axes = c(3,5))    # Plot axes 3, 5. No object names
-biplot(out, plot.type="biplots", xlabs = NULL) # Replace object names by numbers
 
-#' ## Heatmap
-# heatmap (spc, Rowv = grp$grp, scale = "column", labRow = grp$grp)
+
+inv_cca <- cca(spc ~ KAOC , data = obs)
+inv_cca
+# plot(inv_cca)
+summary(inv_cca)
+anova(inv_cca)
+
+inv_cca <- cca(spc ~ DOLO , data = obs)
+inv_cca
+# plot(inv_cca)
+summary(inv_cca)
+anova(inv_cca)
+
+inv_cca <- cca(spc ~ SLPH , data = obs)
+inv_cca
+# plot(inv_cca)
+summary(inv_cca)
+anova(inv_cca)
+
+
+
 
 #' <!-- #################################################################### -->
 
