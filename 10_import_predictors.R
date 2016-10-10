@@ -1,7 +1,7 @@
 #' ---
 #' title: "Predictor import for R analysis"
 #' author: "Paul Czechowski"
-#' date: "September 27th, 2016"
+#' date: "October 10th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -12,7 +12,8 @@
 #' 
 #' This code is tested using a raw R terminal. Path names are defined relative 
 #' to the project directory. This code commentary is included in the R code 
-#' itself and can be rendered at any stage using  `rmarkdown::render ("./10_import_predictors.r")`. 
+#' itself and can be rendered at any stage using  
+#' `rmarkdown::render ("./10_import_predictors.r")`. 
 #' Please check the session info below for
 #' further notes on the coding environment.
 #'
@@ -37,7 +38,7 @@ path_obs <- "./Zenodo/Environment/predictors.csv"
 
 #' # Data import
 #' 
-#' Soil geochemical and X-Ray diffraction data is imported using basic R functionality
+#' Soil geochemical and X-Ray diffraction data is imported using basic R functionality.:
 predictors <- read.csv(path_obs, stringsAsFactors = FALSE, na.strings = c("NA" , "#N/A" ))
 
 #' ## Check data dimensions

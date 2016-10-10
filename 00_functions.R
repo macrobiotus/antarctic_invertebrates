@@ -1,7 +1,7 @@
 #' ---
 #' title: "Helper functions for invertebrate analysis"
 #' author: "Paul Czechowski"
-#' date: "September 27th, 2016"
+#' date: "October 10th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -64,7 +64,7 @@ agglomerate <- function (ps_ob, tax_rank) {
 
 #' ## Reset presence absence values
 #'
-#' This calculates Presence / absence within a given phyloseq object
+#' This calculates presence / absence within a given phyloseq object
 #' on phylotypes. Only makes sense with agglomerated object.
 make_binary <- function(phsq_ob){
 
@@ -75,7 +75,25 @@ make_binary <- function(phsq_ob){
   otu_table (phsq_ob) [otu_table (phsq_ob) > 0]  <-1
 
   # return object
-	return (phsq_ob)
+  return (phsq_ob)
+}
+
+
+#' ## Inverse the `log` of CSS'd data
+#'
+#' CSS'd data is `log` scaled by default, which can be reverted using this
+#' function. Zero counts become 1, which is not handled by this function,
+#' but necessary if it is to be employed.
+get_exp <- function(phsq_ob){
+
+  # package loading
+  require("phyloseq")
+  
+  # inverse log scaling
+  phsq_ob <- transform_sample_counts (phsq_ob, function(OTU) exp(OTU))
+  
+  # return object
+  return (phsq_ob)
 }
 
 #' ## Transposing phylotype counts
@@ -499,9 +517,9 @@ get_corrplots <- function (obs, flt_obs) {
 #' *  Instead of centering the projection on the South Pole, it's centering is defined
 #'    by the range of the sample coordinates of the respective 'phyloseq` object.
 #' *  The plotting objects are returned and evaluated later.
-
-# draw a map with the sampling locations, incl. altering the names of the input
-#   phyloseq object
+#'
+#' Draw a map with the sampling locations, incl. altering the names of the input
+#' phyloseq object.
 map_samples <- function(phsq_ob, col_long = NULL, col_lat = NULL, subtitle = NULL){
   
   require (phylogeo)
@@ -537,7 +555,7 @@ map_samples <- function(phsq_ob, col_long = NULL, col_lat = NULL, subtitle = NUL
   return (map)
 }
 
-#' ## Plot phyloseq object
+#' ## Plot `phyloseq` object
 #'
 #' A simple barplot function to get an overview over the contents of `Phyloseq`
 #' objects.:
@@ -552,7 +570,7 @@ barplot_samples <- function(ps_ob, tax_rank){
 
   # define title and subtitle
   plot.title    <- "Invertebrate Composition"
-  plot.subtitle <- "18S rDNA rarefied read counts (upper) or rank presence (lower) "
+  plot.subtitle <- "18S rDNA CSS'd read counts (upper) or rank presence (lower) "
 
   # draw a barplot, and give a title, subtitle
   #   re-set "facet_grid" if desirable, doesn't make much sense here
@@ -565,6 +583,32 @@ barplot_samples <- function(ps_ob, tax_rank){
   # return object
   return (ps_bar)
 }
+
+#' ## Plot regressions
+#'
+#' Returns regression lines. X axis is hard coded `"MNAGE"` to match input dataframe 
+#' `age_df`, function will loop over matching data frane column names that are
+#' passed in with `y_axis`. No error input checking implemented, use wisely.
+plot_regrs = function (y_axis, age_df){
+  
+  # package loading
+  require("ggplot2")
+  
+  # get the regression plot
+  regr_plot <- ggplot(age_df, aes_string(x= "MNAGE", y = y_axis)) +
+                      geom_point(colour = 'red', size = 3) +
+                      geom_smooth(method=lm) +
+                      ylab(y_axis) +
+                      xlab("Substrate Age") +
+                      theme_bw() + 
+                      theme(axis.text.x = element_text(angle = 65, hjust = 1, 
+                        size = 8), axis.text.y = element_text (size = 8))
+  
+  # return plot
+  return (regr_plot)
+}
+
+
 
 #' ## Functions for violin plots
 #'

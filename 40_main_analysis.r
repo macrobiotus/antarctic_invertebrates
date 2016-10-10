@@ -1,7 +1,7 @@
 #' ---
 #' title: "Main analysis"
 #' author: "Paul Czechowski"
-#' date: "October 4th, 2016"
+#' date: "October 10th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -15,13 +15,13 @@
 #' itself and can be rendered at any stage using 
 #' `rmarkdown::render ("40_main_analysis.r")`. Please check the session info 
 #' at the end of the document for further notes on the coding environment.
-
+#' 
 #' # Prerequisites
 #' 
 #' * This script is in the parent directory of the repository. 
 #' * Scripts `10_import_predictors.r`, `20_format_predictors.r`,
-#'   (`25_rarefy_phyloseq.r`,) and `30_format_phyloseq.r`were run.
-#' * Script `00_functions.r`was run.
+#'   and `30_format_phyloseq.r`were run.
+#' * Script `00_functions.r` is available .
 #' * Output of these scripts is available throughout the repository directory
 #'   tree.
 #' 
@@ -55,8 +55,8 @@ rm(list=ls())          # clear R environment
 #'
 #' ### Import locations
 #'
-# path to filtered, abundance corrected data with curated taxonomy and field
-#   measurements
+#' Path to filtered, CSS abundance-corrected data with curated taxonomy and field
+#' measurements.
 path_phsq_ob <- file.path ("Zenodo/R_Objects/35_phsq_ob.Rdata",
                            fsep = .Platform$file.sep) 
 #' ### Export locations
@@ -68,9 +68,7 @@ path_workspace_a    <- file.path ("Zenodo/R_Objects/40_010_workspace.Rdata",
 path_workspace_b    <- file.path ("Zenodo/R_Objects/40_020_workspace.Rdata",
                                 fsep = .Platform$file.sep)
 
-
-
-# graphics for main manuscript and supplemental information 
+#' Graphics for main manuscript and supplemental information.
 path_abnds   <- file.path ('Zenodo/R_Output/40-010_abundances.pdf', 
                           fsep = .Platform$file.sep)
 path_coord   <- file.path ('Zenodo/R_Output/40-020_coordinates.csv', 
@@ -93,8 +91,12 @@ path_pca_bip <- file.path ('Zenodo/R_Output/40-110_pca_bip_all_vars.pdf',
                           fsep = .Platform$file.sep)
 path_mds_hip <- file.path ('Zenodo/R_Output/40-120_mds_mds_all_vars.pdf', 
                           fsep = .Platform$file.sep)
-path_hmp_all <- file.path ('Zenodo/R_Output/04-130_hmp_____all_vars.pdf', 
+path_hmp_all <- file.path ('Zenodo/R_Output/40-130_hmp_____all_vars.pdf', 
                           fsep = .Platform$file.sep)
+path_regr    <- file.path ('Zenodo/R_Output/40-140_regr_age_chem.pdf', 
+                          fsep = .Platform$file.sep)
+
+
 
 #' ## Loading functions
 #'
@@ -104,7 +106,7 @@ source (file.path ("00_functions.r", fsep = .Platform$file.sep))
 
 #' ## Data import
 #' 
-#' Phylotype data is imported using basic R functionality. Imported are phyloseq
+#' Phylotype data is imported using basic R functionality. Imported are `phyloseq`
 #' objects [@McMurdie2013].
 load (path_phsq_ob) # object name is "phsq_ob"
 
@@ -123,16 +125,14 @@ minerals <- c ("QUTZ", "FDSP", "TTAN", "PRAG", "MICA", "DOLO", "KAOC")
                         #   are removed, otherwise the MM mineral composition
                         #   can't be analysed 
 location <- c ("AREA")
-position <- c ("LONG", "LATI")
-                        # for spatial distance matrices
-raw_ages <- c ("LAGE", "HAGE")
-                        # low and high age estimate
+position <- c ("LONG", "LATI") # for spatial distance matrices
+raw_ages <- c ("LAGE", "HAGE") # low and high age estimate
 
 #' <!-- #################################################################### -->
 
 
 #' <!-- #################################################################### -->
-
+#'
 #' # Describe imported `phyloseq` object 
 #' 
 #' ## Invertebrate abundances per sample
@@ -140,21 +140,20 @@ raw_ages <- c ("LAGE", "HAGE")
 #' The following plots are agglomerated on a specified level by calling 
 #' `agglomerate()`. The first plot shows proportional abundance of invertebrates
 #' in rarefied data. In the second plot, all abundances are converted to "1",
-#' (via `make_binary ()`)and the rank composition is more visible.
-
-# create the plots
+#' (via `make_binary ()`)and the rank composition is more visible. Create the 
+#' plots.:
 pl1 <- barplot_samples (agglomerate (phsq_ob, "Class"), "Class")
 pl2 <- barplot_samples (make_binary (agglomerate (phsq_ob, "Class")), "Class")
 
-# show the plots
+#' Showing the plots.:
 #+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=7, dpi=200, fig.align='center',  fig.cap="Invertebrate abundances at selected taxonomic level, rarefied. (approx. code line 158)"
 grid.arrange(pl1, pl2, nrow = 2)
 
-# save the plots
+#' Save the plots.:
 ggsave (file = path_abnds, plot = arrangeGrob (pl1, pl2, nrow = 2), 
         dpi = 200, width = 7, height = 7, units = "in")
 
-# remove them from the environment
+#' Garbage collection.
 rm(pl1, pl2)
 
 #' ## Invertebrate abundances per location
@@ -208,22 +207,21 @@ plots <- list (plot_bar (phsq_obs[[1]], fill = "Class", facet_grid = "Phylum~ARE
 #' Plots can now be shown, and saved to the output directory. Objects are then
 #' discarded.
 #+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=10, dpi=200, fig.align='center',  fig.cap="Invertebrate class and phylum composition per sampling location, with rarefied abundances. (Approx. code line 205)"
-# show plots
-grid.arrange(plots[[2]], plots[[3]], plots[[1]], nrow = 3)
+grid.arrange(plots[[1]], plots[[2]], plots[[3]], nrow = 3)
 
-# save plots
-ggsave (file = path_brplts, plot = arrangeGrob (plots[[2]], plots[[3]],
-                                                plots[[1]], nrow = 3), 
+#' Saving plots.:
+ggsave (file = path_brplts, plot = arrangeGrob (plots[[1]], plots[[2]],
+                                                plots[[3]], nrow = 3), 
         dpi = 200, width = 7, height = 10, units = "in")
 
-# discard all objects related to barplots
+#' Garbage collection.:
 rm (plots, phsq_obs, phsq_agg)
 
 #' ## Map in addition to QGIS map 
 #'
 #' Here using an old function from repository `pcm_modelling`, which was minimally
 #' adjusted for the current repository. Creating the map, plotting is here, and
-#'saving it to file. Garbage collection afterwards.
+#' saving it to file. Garbage collection afterwards.
 phsq_map <- map_samples(phsq_ob, col_long = "LONG", col_lat = "LATI", 
   subtitle = "18S data")
 
@@ -239,7 +237,7 @@ rm (phsq_map)
 
 
 #' <!-- #################################################################### -->
-
+#'
 #' # Retrieve and write information from imported `phyloseq` object 
 #'
 #' Expand this section if further information is necessary for writing.
@@ -260,17 +258,15 @@ summary (temp [ which (temp$AREA == "LT"),  "ELEV" ]) # LT
 #' analyses, just in case agglomerate changes the data (which it shouldn't, but
 #' I haven't tested that is doesn't). The `.csv`file is used by
 #' in Qgis file `/Zenodo/Qgis/map.qgs` in conjuction with the Quantarctica
-#' package
-
-# dplyr doesn't work here, storing object is necessary 
+#' package. `dplyr` doesn't work here, storing object is necessary.: 
 coordinates <- sample_data (agglomerate (phsq_ob, "Class"))[ , c ("LONG", "LATI",
   "AREA", "GENE")]
 
-# see previously defined export path
+#' See previously defined export path:
 write.table (as.data.frame (coordinates), file = path_coord, row.names	= TRUE,
   col.names = TRUE)
  
-# garbage collection
+#' Garbage collection:
 rm (coordinates, temp)
 
 #' # Saving intermediate workspace 
@@ -283,6 +279,7 @@ save.image (path_workspace_a)
 
 
 #' <!-- #################################################################### -->
+#'
 #' # Exploratory data analysis
 #'
 #' ##  Isolating data for this analysis 
@@ -305,46 +302,6 @@ spc <- matr_ana[["spc"]] # species data
 posi <- matr_ana[["obs"]] [ , position]; matr_ana[["obs"]] [ , position] <- NULL  
 chem <- matr_ana[["obs"]] [ , geochems]; matr_ana[["obs"]] [ , geochems] <- NULL  
 minl <- matr_ana[["obs"]] [ , minerals]; matr_ana[["obs"]] [ , minerals] <- NULL
-#' <!-- #################################################################### -->
-
-
-#' <!-- #################################################################### -->
-
-
-# Check age vs conductivity and sulphur
-
-# isolate ages seperately beacuse get list prunes undefined values across the whole returened
-#  table
-# ages <- get_list (phsq_ob, tax_rank = "Class", pred_cat = c (raw_ages), pres_abs = FALSE)
-# 
-# extract ages from list into datafraem to work with them more easily, THERE
-# IS A SEMICOLON HERE
-# ages <- ages[["obs"]] [ , raw_ages]; ages[["obs"]] [ , raw_ages] <- NULL
-# 
-# do the row means acrioss higher ab lower estimates, only one column is desired
-#  for further analysis
-# ages <- data.frame(rowMeans (ages[ ,1:2]))
-# 
-# slph <- subset(chem, select=c("SLPH"))
-# 
-# str(slph)
-# str(ages)
-# 
-# sa <- merge(slph,ages,by="row.names",all.x=TRUE)
-# sa[1] <- NULL
-# names(sa) <- c("sulphur","age") 
-# 
-# sa <- sa[ complete.cases(sa) , ]
-# 
-# lm1 <- lm(sulphur ~ age, data=sa)
-# summary(lm1)
-# plot(lm1)
-# res <- residuals(lm1)
-# fits <- fitted(lm1)
-# 
-# plot(res ~ fits)
-# plot(res ~ age, data=sa)
-
 
 #' <!-- #################################################################### -->
 
@@ -362,13 +319,13 @@ ggpairs ( data.frame (chem, minl, check.rows = TRUE))
 summary ( data.frame (chem, minl, check.rows = TRUE))
 str (data.frame (chem, minl, check.rows = TRUE))
 
-# violin plots for unmodified chemical data
+#' Violin plots for unmodified chemical data.
 #+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Chemical data per location, unmodified. (approx. code line 295)"
 add_discretex (chem, grp, dfr_x_name = "AREA") %>% 
  get_violinplotlist ( . ,"AREA") %>%
  marrangeGrob ( . , nrow=3, ncol=3)
  
-# violin plots for unmodified mineral data
+#' Violin plots for unmodified mineral data.
 #+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Mineral data per location, unmodified. (approx. code line 301)"
 add_discretex (minl, grp, dfr_x_name = "AREA") %>% 
  get_violinplotlist ( . ,"AREA") %>%
@@ -479,8 +436,8 @@ rm (g)
 
 
 #' <!-- #################################################################### -->
-
-#' ## Principal component analysis
+#'
+#' ## Principal component analysis of observations
 #' 
 #' ### Getting the principal components
 #' 
@@ -537,8 +494,8 @@ add_discretex ( as.data.frame(spc), grp, dfr_x_name = "AREA") %>%
 
 
 #' <!-- #################################################################### -->
-
-#' # MDS trials 
+#'
+#' # Non-Metric Multidimensional Scaling 
 #' 
 #' ## Matching up phylotype and factor information. 
 #'
@@ -558,14 +515,14 @@ spc_mds <- metaMDS(spc, distance = "bray" ,  k = 2, try = 1000, trymax = 2000,
   noshare = FALSE, wascores = TRUE, trace = 0, plot = FALSE, expand = TRUE, 
   binary = FALSE)
 
-spc_mds # stress value is 0.07224375
+spc_mds # stress value is 0.04411049
 
 #' ### Fitting environmental vectors 
 #' 
-env <- envfit(spc_mds, obs, permutations = 5000)
+env <- envfit(spc_mds, obs, permutations = 9999)
 env
 
-#+ message=FALSE, warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center', fig.cap="MDS plot of species and mineral data, SLPH, FDSP with some significance here. Blue: Mount Menzies, Red: Lake Terrasovoje, Green: Mawson Escarpment  (approx. code line 465)"
+#+ message=FALSE, warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center', fig.cap="MDS plot of species and mineral data, SLPH with (*) significance  here. Blue: Mount Menzies, Red: Lake Terrasovoje, Green: Mawson Escarpment (approx. code line 521)"
 par (mfrow = c (1, 1))
 ordiplot (spc_mds, display = "sites" )
 # ordihull (spc_mds, shorten_groups (grp, obs), col = c ("coral3", "chartreuse4", "cornflowerblue"))
@@ -591,45 +548,90 @@ dev.off()
 
 
 #' <!-- #################################################################### -->
-#' ## `adonis` trials
+#'
+#' ## `adonis` analysis
 #'
 #' Class beta diversity, expressed as distance `z = (log(2)-log(2*a+b+c)+log(a+b+c))/log(2)`
-#' may be function of group means of all mineral and chemical variables. 
-adonis (formula =  betadiver ( spc, "z") ~ AMMN + NITR + POTA + SLPH + PHOS + 
-  CARB + PHHO + QUTZ + FDSP + MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
+#' may be function of group means of SLPH. 
+ad <- adonis (formula =  betadiver ( spc, "z") ~  SLPH, data = obs, perm = 9999)
+ad
 
-#' ## `envfit` trials
-envfit(spc ~ AMMN + NITR + POTA + SLPH + PHOS + CARB + PHHO + QUTZ + FDSP + 
-   MICA + PRAG + DOLO + KAOC, data = obs, perm = 9999)
+#' <!-- #################################################################### -->
 
 
 #' <!-- #################################################################### -->
 
 
-#' ## `cca` trials
+#' ## Canonical correspondence analysis
 #'
+#' ### Calculate the CCA
+#' 
+#' Here using also the Sulphur variables, as it was the only one that showed 
+#' persistent significance across all tests. Show the result.
+inv_slph <- cca(spc ~ SLPH , data = obs)
+inv_slph
+summary(inv_slph)
+
+#' ### Testing CCA results
+#' 
+#' Permutation testing 
+anova (inv_slph, perm = 9999)
+
+#' Testing the (single) axis for significance
+anova (inv_slph, by="axis", perm = 1000)
+
+#' Type I test
+anova (inv_slph, by="term", perm = 1000) # SLPH
+
+#' Type III test
+anova(inv_slph, by="margin", perm = 1000) # SLPH
+
+#' <!-- #################################################################### -->
 
 
-inv_cca <- cca(spc ~ KAOC , data = obs)
-inv_cca
-# plot(inv_cca)
-summary(inv_cca)
-anova(inv_cca)
-
-inv_cca <- cca(spc ~ DOLO , data = obs)
-inv_cca
-# plot(inv_cca)
-summary(inv_cca)
-anova(inv_cca)
-
-inv_cca <- cca(spc ~ SLPH , data = obs)
-inv_cca
-# plot(inv_cca)
-summary(inv_cca)
-anova(inv_cca)
+#' <!-- #################################################################### -->
 
 
+#' ## Regress age and conductivity and sulphur
+#' 
+#' Isolate ages for analysis, get_list() prunes undefined values across the  whole returned
+#' table.
+ages <- get_list (phsq_ob, tax_rank = "Class", pred_cat = c (raw_ages, geochems, 
+  minerals), pres_abs = FALSE)
 
+#' Extract observations from list into dataframe to work with them more easily.
+ages <- ages[["obs"]]; 
+ 
+#'  Get the row means across higher and lower estimates, only one column is desired
+#' for further analysis.
+ages$MNAGE <- -1 * rowMeans (ages[ ,c("HAGE", "LAGE")])
+
+#' Make plotting easier by using `lapply()` to generate plots, for which one
+#' needs a vector to loop over.
+y_axis <- c("AMMN", "NITR", "POTA", "SLPH", "COND", "PHCC", "PHOS", "CARB", 
+               "PHHO")
+
+#' Create a list of graphical objects for plotting on one page.
+regr_list <- lapply (y_axis, plot_regrs, ages)
+
+#' Plots can now be shown, and saved to the output directory. Objects are then
+#' discarded.
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Regressions between terrrain age and soil geochemical measurments. (Approx. code line 615)"
+marrangeGrob (regr_list, nrow = 3, ncol = 3)
+
+#' Saving plots.:
+ggsave (file = path_regr, plot = marrangeGrob (regr_list, nrow = 3, ncol = 3), 
+        dpi = 200, width = 10, height = 10, units = "in")
+
+
+#' ## Testing some of the regressions
+#'
+#' Could be moved to function 
+regr  <- lm(MNAGE ~ SLPH, data = ages)
+summary(regr)
+
+regr  <- lm(MNAGE ~ COND, data = ages)
+summary(regr)
 
 #' <!-- #################################################################### -->
 

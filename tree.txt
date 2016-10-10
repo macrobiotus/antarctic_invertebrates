@@ -1,20 +1,8 @@
 .
-├── 0000_config.sh
-├── 0000_config_qiime.txt
-├── 00_functions.pdf
 ├── 00_functions.r
-├── 0200_rarefy_alpha_18S.sh
-├── 0300_rarefy_multi_18S.sh
-├── 0400_ckeck_multi_18S.sh
-├── 10_import_predictors.pdf
 ├── 10_import_predictors.r
-├── 20_format_predictors.pdf
 ├── 20_format_predictors.r
-├── 25_rarefy_phyloseq.pdf
-├── 25_rarefy_phyloseq.r
-├── 30_format_phyloseq.pdf
-├── 30_format_phyloseq.r
-├── 40_main_analysis.pdf
+├── 35_format_phyloseq.r
 ├── 40_main_analysis.r
 ├── README.md
 ├── Scratch
@@ -26,6 +14,10 @@
 │   │   ├── COI_invertebrates.fasta
 │   │   └── COI_invertebrates.tre
 │   ├── unused_R
+│   │   ├── 25_rarefy_phyloseq.pdf
+│   │   ├── 25_rarefy_phyloseq.r
+│   │   ├── 30_format_phyloseq.pdf
+│   │   ├── 30_format_phyloseq.r
 │   │   ├── 30_format_phyloseq_biom.r
 │   │   ├── 30_phylotype_data.R
 │   │   ├── 40_merging.R
@@ -39,9 +31,142 @@
 │   │   ├── R_code_bits.R
 │   │   └── ordiellipse.R
 │   ├── unused_R_objects
+│   │   ├── 25_workspace.Rdata
+│   │   ├── 30_phsq_ob.Rdata
+│   │   ├── 30_workspace.Rdata
+│   │   ├── 560_psob_18S_default_filtered.RData
+│   │   └── 560_psob_18S_rarefied_filtered.RData
+│   ├── unused_Zenodo
+│   │   └── Rarefaction
+│   │       ├── 0200_rarefaction
+│   │       │   ├── 0200_table_summary_dflt.txt
+│   │       │   ├── 0200_table_summary_quant.txt
+│   │       │   ├── alpha_div_collated
+│   │       │   │   ├── chao1.txt
+│   │       │   │   ├── doubles.txt
+│   │       │   │   ├── goods_coverage.txt
+│   │       │   │   ├── observed.txt
+│   │       │   │   └── singles.txt
+│   │       │   ├── alpha_rarefaction_plots
+│   │       │   │   ├── average_plots
+│   │       │   │   │   ├── chao1BarcodeSequence.png
+│   │       │   │   │   ├── chao1Description.png
+│   │       │   │   │   ├── chao1LatDEC.png
+│   │       │   │   │   ├── chao1LatiDMS.png
+│   │       │   │   │   ├── chao1LibContent.png
+│   │       │   │   │   ├── chao1LinkerPrimerSequence.png
+│   │       │   │   │   ├── chao1Location.png
+│   │       │   │   │   ├── chao1Loci.png
+│   │       │   │   │   ├── chao1LongDEC.png
+│   │       │   │   │   ├── chao1LongDMS.png
+│   │       │   │   │   ├── chao1SampleID.png
+│   │       │   │   │   ├── chao1SardiID.png
+│   │       │   │   │   ├── chao1TmplHash.png
+│   │       │   │   │   ├── chao1XtrContent.png
+│   │       │   │   │   ├── chao1XtrOri.png
+│   │       │   │   │   ├── chao1errors.png
+│   │       │   │   │   ├── doublesBarcodeSequence.png
+│   │       │   │   │   ├── doublesDescription.png
+│   │       │   │   │   ├── doublesLatDEC.png
+│   │       │   │   │   ├── doublesLatiDMS.png
+│   │       │   │   │   ├── doublesLibContent.png
+│   │       │   │   │   ├── doublesLinkerPrimerSequence.png
+│   │       │   │   │   ├── doublesLocation.png
+│   │       │   │   │   ├── doublesLoci.png
+│   │       │   │   │   ├── doublesLongDEC.png
+│   │       │   │   │   ├── doublesLongDMS.png
+│   │       │   │   │   ├── doublesSampleID.png
+│   │       │   │   │   ├── doublesSardiID.png
+│   │       │   │   │   ├── doublesTmplHash.png
+│   │       │   │   │   ├── doublesXtrContent.png
+│   │       │   │   │   ├── doublesXtrOri.png
+│   │       │   │   │   ├── doubleserrors.png
+│   │       │   │   │   ├── goods_coverageBarcodeSequence.png
+│   │       │   │   │   ├── goods_coverageDescription.png
+│   │       │   │   │   ├── goods_coverageLatDEC.png
+│   │       │   │   │   ├── goods_coverageLatiDMS.png
+│   │       │   │   │   ├── goods_coverageLibContent.png
+│   │       │   │   │   ├── goods_coverageLinkerPrimerSequence.png
+│   │       │   │   │   ├── goods_coverageLocation.png
+│   │       │   │   │   ├── goods_coverageLoci.png
+│   │       │   │   │   ├── goods_coverageLongDEC.png
+│   │       │   │   │   ├── goods_coverageLongDMS.png
+│   │       │   │   │   ├── goods_coverageSampleID.png
+│   │       │   │   │   ├── goods_coverageSardiID.png
+│   │       │   │   │   ├── goods_coverageTmplHash.png
+│   │       │   │   │   ├── goods_coverageXtrContent.png
+│   │       │   │   │   ├── goods_coverageXtrOri.png
+│   │       │   │   │   ├── goods_coverageerrors.png
+│   │       │   │   │   ├── observedBarcodeSequence.png
+│   │       │   │   │   ├── observedDescription.png
+│   │       │   │   │   ├── observedLatDEC.png
+│   │       │   │   │   ├── observedLatiDMS.png
+│   │       │   │   │   ├── observedLibContent.png
+│   │       │   │   │   ├── observedLinkerPrimerSequence.png
+│   │       │   │   │   ├── observedLocation.png
+│   │       │   │   │   ├── observedLoci.png
+│   │       │   │   │   ├── observedLongDEC.png
+│   │       │   │   │   ├── observedLongDMS.png
+│   │       │   │   │   ├── observedSampleID.png
+│   │       │   │   │   ├── observedSardiID.png
+│   │       │   │   │   ├── observedTmplHash.png
+│   │       │   │   │   ├── observedXtrContent.png
+│   │       │   │   │   ├── observedXtrOri.png
+│   │       │   │   │   ├── observederrors.png
+│   │       │   │   │   ├── singlesBarcodeSequence.png
+│   │       │   │   │   ├── singlesDescription.png
+│   │       │   │   │   ├── singlesLatDEC.png
+│   │       │   │   │   ├── singlesLatiDMS.png
+│   │       │   │   │   ├── singlesLibContent.png
+│   │       │   │   │   ├── singlesLinkerPrimerSequence.png
+│   │       │   │   │   ├── singlesLocation.png
+│   │       │   │   │   ├── singlesLoci.png
+│   │       │   │   │   ├── singlesLongDEC.png
+│   │       │   │   │   ├── singlesLongDMS.png
+│   │       │   │   │   ├── singlesSampleID.png
+│   │       │   │   │   ├── singlesSardiID.png
+│   │       │   │   │   ├── singlesTmplHash.png
+│   │       │   │   │   ├── singlesXtrContent.png
+│   │       │   │   │   ├── singlesXtrOri.png
+│   │       │   │   │   └── singleserrors.png
+│   │       │   │   └── rarefaction_plots.html
+│   │       │   └── log_20161005195354.txt
+│   │       ├── 0300_rarefaction
+│   │       │   ├── 0300_table_summary.txt
+│   │       │   ├── rarefaction_1100_0.biom
+│   │       │   ├── rarefaction_1100_0.txt
+│   │       │   ├── rarefaction_1100_1.biom
+│   │       │   ├── rarefaction_1100_1.txt
+│   │       │   ├── rarefaction_1100_2.biom
+│   │       │   ├── rarefaction_1100_2.txt
+│   │       │   ├── rarefaction_1100_3.biom
+│   │       │   ├── rarefaction_1100_3.txt
+│   │       │   ├── rarefaction_1100_4.biom
+│   │       │   ├── rarefaction_1100_4.txt
+│   │       │   ├── rarefaction_1100_5.biom
+│   │       │   ├── rarefaction_1100_5.txt
+│   │       │   ├── rarefaction_1100_6.biom
+│   │       │   ├── rarefaction_1100_6.txt
+│   │       │   ├── rarefaction_1100_7.biom
+│   │       │   ├── rarefaction_1100_7.txt
+│   │       │   ├── rarefaction_1100_8.biom
+│   │       │   ├── rarefaction_1100_8.txt
+│   │       │   ├── rarefaction_1100_9.biom
+│   │       │   └── rarefaction_1100_9.txt
+│   │       └── 18S_btable147_counts_default.biom
 │   └── unused_shell
+│       ├── 0000_config.sh
+│       ├── 0000_config_qiime.txt
+│       ├── 0200_rarefy_alpha_18S.sh
+│       ├── 0300_rarefy_multi_18S.sh
+│       └── 0400_ckeck_multi_18S.sh
 ├── Zenodo
 │   ├── Documentation
+│   │   ├── 00_functions.pdf
+│   │   ├── 10_import_predictors.pdf
+│   │   ├── 20_format_predictors.pdf
+│   │   ├── 35_format_phyloseq.pdf
+│   │   ├── 40_main_analysis.pdf
 │   │   ├── R_script_overview.dia
 │   │   ├── R_script_overview.dia~
 │   │   ├── shell_script_overview.dia
@@ -4701,146 +4826,27 @@
 │   │   ├── 10_workspace.Rdata
 │   │   ├── 20_predictors.Rdata
 │   │   ├── 20_workspace.Rdata
-│   │   ├── 25_workspace.Rdata
-│   │   ├── 30_phsq_ob.Rdata
-│   │   ├── 30_workspace.Rdata
+│   │   ├── 35_phsq_ob.Rdata
+│   │   ├── 35_workspace.Rdata
 │   │   ├── 40_010_workspace.Rdata
 │   │   ├── 40_020_workspace.Rdata
-│   │   ├── 560_psob_18S_css_filtered.RData
-│   │   ├── 560_psob_18S_default_filtered.RData
-│   │   └── 560_psob_18S_rarefied_filtered.RData
-│   ├── R_Output
-│   │   ├── 40-010_abundances.pdf
-│   │   ├── 40-020_coordinates.csv
-│   │   ├── 40-030_barplots.pdf
-│   │   ├── 40-040_map_pcm.pdf
-│   │   ├── 40-050_cor_all_vars.pdf
-│   │   ├── 40-060_cor_min_vars.pdf
-│   │   ├── 40-070_sca_tra_all_vars.pdf
-│   │   ├── 40-080_vio_tra_all_vars.pdf
-│   │   ├── 40-090_pca_var_all_vars.pdf
-│   │   ├── 40-110_pca_bip_all_vars.pdf
-│   │   └── 40-120_mds_mds_all_vars.pdf
-│   └── Rarefaction
-│       ├── 0200_rarefaction
-│       │   ├── 0200_table_summary_dflt.txt
-│       │   ├── 0200_table_summary_quant.txt
-│       │   ├── alpha_div_collated
-│       │   │   ├── chao1.txt
-│       │   │   ├── doubles.txt
-│       │   │   ├── goods_coverage.txt
-│       │   │   ├── observed.txt
-│       │   │   └── singles.txt
-│       │   ├── alpha_rarefaction_plots
-│       │   │   ├── average_plots
-│       │   │   │   ├── chao1BarcodeSequence.png
-│       │   │   │   ├── chao1Description.png
-│       │   │   │   ├── chao1LatDEC.png
-│       │   │   │   ├── chao1LatiDMS.png
-│       │   │   │   ├── chao1LibContent.png
-│       │   │   │   ├── chao1LinkerPrimerSequence.png
-│       │   │   │   ├── chao1Location.png
-│       │   │   │   ├── chao1Loci.png
-│       │   │   │   ├── chao1LongDEC.png
-│       │   │   │   ├── chao1LongDMS.png
-│       │   │   │   ├── chao1SampleID.png
-│       │   │   │   ├── chao1SardiID.png
-│       │   │   │   ├── chao1TmplHash.png
-│       │   │   │   ├── chao1XtrContent.png
-│       │   │   │   ├── chao1XtrOri.png
-│       │   │   │   ├── chao1errors.png
-│       │   │   │   ├── doublesBarcodeSequence.png
-│       │   │   │   ├── doublesDescription.png
-│       │   │   │   ├── doublesLatDEC.png
-│       │   │   │   ├── doublesLatiDMS.png
-│       │   │   │   ├── doublesLibContent.png
-│       │   │   │   ├── doublesLinkerPrimerSequence.png
-│       │   │   │   ├── doublesLocation.png
-│       │   │   │   ├── doublesLoci.png
-│       │   │   │   ├── doublesLongDEC.png
-│       │   │   │   ├── doublesLongDMS.png
-│       │   │   │   ├── doublesSampleID.png
-│       │   │   │   ├── doublesSardiID.png
-│       │   │   │   ├── doublesTmplHash.png
-│       │   │   │   ├── doublesXtrContent.png
-│       │   │   │   ├── doublesXtrOri.png
-│       │   │   │   ├── doubleserrors.png
-│       │   │   │   ├── goods_coverageBarcodeSequence.png
-│       │   │   │   ├── goods_coverageDescription.png
-│       │   │   │   ├── goods_coverageLatDEC.png
-│       │   │   │   ├── goods_coverageLatiDMS.png
-│       │   │   │   ├── goods_coverageLibContent.png
-│       │   │   │   ├── goods_coverageLinkerPrimerSequence.png
-│       │   │   │   ├── goods_coverageLocation.png
-│       │   │   │   ├── goods_coverageLoci.png
-│       │   │   │   ├── goods_coverageLongDEC.png
-│       │   │   │   ├── goods_coverageLongDMS.png
-│       │   │   │   ├── goods_coverageSampleID.png
-│       │   │   │   ├── goods_coverageSardiID.png
-│       │   │   │   ├── goods_coverageTmplHash.png
-│       │   │   │   ├── goods_coverageXtrContent.png
-│       │   │   │   ├── goods_coverageXtrOri.png
-│       │   │   │   ├── goods_coverageerrors.png
-│       │   │   │   ├── observedBarcodeSequence.png
-│       │   │   │   ├── observedDescription.png
-│       │   │   │   ├── observedLatDEC.png
-│       │   │   │   ├── observedLatiDMS.png
-│       │   │   │   ├── observedLibContent.png
-│       │   │   │   ├── observedLinkerPrimerSequence.png
-│       │   │   │   ├── observedLocation.png
-│       │   │   │   ├── observedLoci.png
-│       │   │   │   ├── observedLongDEC.png
-│       │   │   │   ├── observedLongDMS.png
-│       │   │   │   ├── observedSampleID.png
-│       │   │   │   ├── observedSardiID.png
-│       │   │   │   ├── observedTmplHash.png
-│       │   │   │   ├── observedXtrContent.png
-│       │   │   │   ├── observedXtrOri.png
-│       │   │   │   ├── observederrors.png
-│       │   │   │   ├── singlesBarcodeSequence.png
-│       │   │   │   ├── singlesDescription.png
-│       │   │   │   ├── singlesLatDEC.png
-│       │   │   │   ├── singlesLatiDMS.png
-│       │   │   │   ├── singlesLibContent.png
-│       │   │   │   ├── singlesLinkerPrimerSequence.png
-│       │   │   │   ├── singlesLocation.png
-│       │   │   │   ├── singlesLoci.png
-│       │   │   │   ├── singlesLongDEC.png
-│       │   │   │   ├── singlesLongDMS.png
-│       │   │   │   ├── singlesSampleID.png
-│       │   │   │   ├── singlesSardiID.png
-│       │   │   │   ├── singlesTmplHash.png
-│       │   │   │   ├── singlesXtrContent.png
-│       │   │   │   ├── singlesXtrOri.png
-│       │   │   │   └── singleserrors.png
-│       │   │   └── rarefaction_plots.html
-│       │   └── log_20161005195354.txt
-│       ├── 0300_rarefaction
-│       │   ├── 0300_table_summary.txt
-│       │   ├── rarefaction_1100_0.biom
-│       │   ├── rarefaction_1100_0.txt
-│       │   ├── rarefaction_1100_1.biom
-│       │   ├── rarefaction_1100_1.txt
-│       │   ├── rarefaction_1100_2.biom
-│       │   ├── rarefaction_1100_2.txt
-│       │   ├── rarefaction_1100_3.biom
-│       │   ├── rarefaction_1100_3.txt
-│       │   ├── rarefaction_1100_4.biom
-│       │   ├── rarefaction_1100_4.txt
-│       │   ├── rarefaction_1100_5.biom
-│       │   ├── rarefaction_1100_5.txt
-│       │   ├── rarefaction_1100_6.biom
-│       │   ├── rarefaction_1100_6.txt
-│       │   ├── rarefaction_1100_7.biom
-│       │   ├── rarefaction_1100_7.txt
-│       │   ├── rarefaction_1100_8.biom
-│       │   ├── rarefaction_1100_8.txt
-│       │   ├── rarefaction_1100_9.biom
-│       │   └── rarefaction_1100_9.txt
-│       └── 18S_btable147_counts_default.biom
+│   │   └── 560_psob_18S_css_filtered.RData
+│   └── R_Output
+│       ├── 40-010_abundances.pdf
+│       ├── 40-020_coordinates.csv
+│       ├── 40-030_barplots.pdf
+│       ├── 40-040_map_pcm.pdf
+│       ├── 40-050_cor_all_vars.pdf
+│       ├── 40-060_cor_min_vars.pdf
+│       ├── 40-070_sca_tra_all_vars.pdf
+│       ├── 40-080_vio_tra_all_vars.pdf
+│       ├── 40-090_pca_var_all_vars.pdf
+│       ├── 40-110_pca_bip_all_vars.pdf
+│       ├── 40-120_mds_mds_all_vars.pdf
+│       └── 40-140_regr_age_chem.pdf
 ├── clean_git_repository.sh
 ├── move_documentation.sh
 ├── references.bib
 └── tree.txt
 
-53 directories, 4790 files
+54 directories, 4795 files

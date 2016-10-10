@@ -1,7 +1,7 @@
 #' ---
 #' title: "Preparation of predictor data "
 #' author: "Paul Czechowski"
-#' date: "September 27th, 2016"
+#' date: "October 10th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -18,7 +18,7 @@
 #'
 #' # Prerequisites
 #' 
-#' * `/10_import_data.R` was run, or the objects to be read in are available in
+#' * `./10_import_data.R` was run, or the objects to be read in are available in
 #' a folder tree `Zenodo` in the project parent directory.
 #'
 #' # Environment preparation
