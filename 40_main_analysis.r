@@ -516,6 +516,7 @@ spc_mds <- metaMDS(spc, distance = "bray" ,  k = 2, try = 1000, trymax = 2000,
   binary = FALSE)
 
 spc_mds # stress value is 0.04411049
+stressplot(spc_mds)
 
 #' ### Fitting environmental vectors 
 #' 
@@ -547,6 +548,7 @@ dev.off()
 #' <!-- #################################################################### -->
 
 
+
 #' <!-- #################################################################### -->
 #'
 #' ## `adonis` analysis
@@ -570,7 +572,9 @@ ad
 #' persistent significance across all tests. Show the result.
 inv_slph <- cca(spc ~ SLPH , data = obs)
 inv_slph
-summary(inv_slph)
+
+# output of the summary function is very long, I'll mute this 
+# summary(inv_slph)
 
 #' ### Testing CCA results
 #' 
@@ -624,14 +628,17 @@ ggsave (file = path_regr, plot = marrangeGrob (regr_list, nrow = 3, ncol = 3),
         dpi = 200, width = 10, height = 10, units = "in")
 
 
-#' ## Testing some of the regressions
+#' ## Testing all regressions
 #'
-#' Could be moved to function 
-regr  <- lm(MNAGE ~ SLPH, data = ages)
-summary(regr)
+#' Calculate all regressions, with variables from previous section, and store
+#' as list. 
+regressions <- lapply (y_axis, function(x) {
+    lm ( substitute (MNAGE ~ i, list(i = as.name(x))), data = ages)
+    })
 
-regr  <- lm(MNAGE ~ COND, data = ages)
-summary(regr)
+
+#' Return summary from list for more specific results
+lapply (regressions, summary )
 
 #' <!-- #################################################################### -->
 
