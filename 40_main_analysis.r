@@ -453,7 +453,7 @@ pcs <- prcomp (obs, center = FALSE, scale = FALSE)
 plot_pcvars(pcs)
 
 # write to disk
-ggsave (path_pca_var, plot = last_plot (), path = NULL, scale = 1, width = 4, 
+ggsave (path_pca_var, plot = last_plot (), path = NULL, scale = 1, width = 7, 
   height = 3, units = "in", dpi = 300)
 
 #' ### Bi-plot (geochemical values)
@@ -590,14 +590,23 @@ anova (inv_slph, by="term", perm = 1000) # SLPH
 #' Type III test
 anova(inv_slph, by="margin", perm = 1000) # SLPH
 
-#' <!-- #################################################################### -->
+#' Variance inflation factor
+vif.cca(inv_slph)
+
+#' Goodness of fit for classes
+goodness(inv_slph)
 
 
 #' <!-- #################################################################### -->
 
 
-#' ## Regress age and conductivity and sulphur
+#' <!-- #################################################################### -->
+
+
+#' ## Regression analyses
 #' 
+#' ### Across all samples
+#'
 #' Isolate ages for analysis, get_list() prunes undefined values across the  whole returned
 #' table.
 ages <- get_list (phsq_ob, tax_rank = "Class", pred_cat = c (raw_ages, geochems, 
@@ -610,6 +619,8 @@ ages <- ages[["obs"]];
 #' for further analysis.
 ages$MNAGE <- -1 * rowMeans (ages[ ,c("HAGE", "LAGE")])
 
+#' #### Plot all regressions
+#' 
 #' Make plotting easier by using `lapply()` to generate plots, for which one
 #' needs a vector to loop over.
 y_axis <- c("AMMN", "NITR", "POTA", "SLPH", "COND", "PHCC", "PHOS", "CARB", 
@@ -627,8 +638,7 @@ marrangeGrob (regr_list, nrow = 3, ncol = 3)
 ggsave (file = path_regr, plot = marrangeGrob (regr_list, nrow = 3, ncol = 3), 
         dpi = 200, width = 10, height = 10, units = "in")
 
-
-#' ## Testing all regressions
+#' #### Testing all regressions
 #'
 #' Calculate all regressions, with variables from previous section, and store
 #' as list. 
@@ -636,14 +646,78 @@ regressions <- lapply (y_axis, function(x) {
     lm ( substitute (MNAGE ~ i, list(i = as.name(x))), data = ages)
     })
 
-
 #' Return summary from list for more specific results
 lapply (regressions, summary )
 
+
+#' ### Region specific
+#'
+#' Isolate ages for analysis, get_list() prunes undefined values across the  whole returned
+#' table.
+ages <- get_list (phsq_ob, tax_rank = "Class", pred_cat = c (raw_ages, geochems, 
+  minerals), pres_abs = FALSE)
+
+#' Extract observations from list into dataframe to work with them more easily.
+ages <- cbind(ages[["obs"]], ages[["grp"]]) 
+ 
+#'  Get the row means across higher and lower estimates, only one column is desired
+#' for further analysis.
+ages$MNAGE <- -1 * rowMeans (ages[ ,c("HAGE", "LAGE")])
+
+#' Split dataframes by location 
+
+agesMM = ages[ which (ages$grp == "MM"), ]
+agesME = ages[ which (ages$grp == "ME"), ]
+agesLT = ages[ which (ages$grp == "LT"), ]
+
+#' #### Plot all regressions
+#' 
+#' Make plotting easier by using `lapply()` to generate plots, for which one
+#' needs a vector to loop over.
+y_axis <- c("AMMN", "NITR", "POTA", "SLPH", "COND", "PHCC", "PHOS", "CARB", 
+               "PHHO")
+
+#' Create a list of graphical objects for plotting on one page.
+regr_listMM <- lapply (y_axis, plot_regrs, agesMM)
+regr_listME <- lapply (y_axis, plot_regrs, agesME)
+regr_listLT <- lapply (y_axis, plot_regrs, agesLT)
+
+
+#' Plots can now be shown, and saved to the output directory. Objects are then
+#' discarded.
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Regressions between terrrain age and soil geochemical measurments. (Approx. code line 615)"
+marrangeGrob (regr_listMM, nrow = 3, ncol = 3)
+marrangeGrob (regr_listME, nrow = 3, ncol = 3)
+marrangeGrob (regr_listLT, nrow = 3, ncol = 3)
+
+
+#' #### Testing all regressions
+#'
+#' Calculate all regressions, with variables from previous section, and store
+#' as list. 
+regressionsMM <- lapply (y_axis, function(x) {
+    lm ( substitute (MNAGE ~ i, list(i = as.name(x))), data = agesMM)
+    })
+
+regressionsME <- lapply (y_axis, function(x) {
+    lm ( substitute (MNAGE ~ i, list(i = as.name(x))), data = agesME)
+    })
+
+regressionsLT <- lapply (y_axis, function(x) {
+    lm ( substitute (MNAGE ~ i, list(i = as.name(x))), data = agesLT)
+    })
+
+
+#' Return summary from list for more specific results
+lapply (regressionsMM, summary )
+lapply (regressionsME, summary )
+lapply (regressionsLT, summary )
+
 #' <!-- #################################################################### -->
 
 
 #' <!-- #################################################################### -->
+#'
 #' # Write data to disk 
 #'
 #' Saved are object created by this script as well as command history and work-space

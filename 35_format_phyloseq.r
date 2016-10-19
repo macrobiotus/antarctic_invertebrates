@@ -156,9 +156,25 @@ load (path_predictors) # object name is "predictors"
 # remove superfluous sample region
 phsq_ob <- subset_samples (phsq_ob, sample_data (phsq_ob)$AREA != "Reinbolt_Hills")
 
+# first count
+length(sample_names(phsq_ob))
+
+# sample locations 
+length (sample_data(phsq_ob)$AREA)                 # of 90 samples
+length (which (sample_data(phsq_ob)$AREA == "Mount_Menzies")) # 8 samples from MM
+length (which (sample_data(phsq_ob)$AREA == "Mawson_Escarpment")) # 38 samples from ME
+length (which (sample_data(phsq_ob)$AREA == "Lake_Terrasovoje")) # 44 samples from ME
+
+# marker coverage  
+levels (sample_data(phsq_ob)$GENE)                      # of two gene combinations
+length (which (sample_data(phsq_ob)$GENE == "both"))    # 42 both genes
+length (which (sample_data(phsq_ob)$GENE == "18Sonly")) # 48 18Sonly
+length (which (sample_data(phsq_ob)$GENE == "COIonly")) #  0 COIonly,
+
 # retain invertebrates
 phsq_ob <- subset_taxa (phsq_ob, Phylum == "Rotifera" | Phylum ==  "Tardigrada"
   |  Phylum == "Arthropoda" |  Phylum == "Nematoda")
+
 
 # remove classes that must be mis-identifications, since data was subset to non-
 #   control, Antarctic samples only. 
