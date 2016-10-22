@@ -1,7 +1,7 @@
 #' ---
 #' title: "Predictor import for R analysis"
 #' author: "Paul Czechowski"
-#' date: "October 10th, 2016"
+#' date: "October 22nd, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -29,11 +29,11 @@
 #' Packages loading and cleaning of work-space:
 #+ message=FALSE, results='hide' 
 rm(list=ls())        # clear R environment
-                     #   working directory current directory by default and not set
+                     #   working directory not set by default, do manually
 
 #' ## Setting location of data for import
 #' 
-#' Path names to x-ray diffraction and soil geochemical data are defined:  
+#' Path names to raw x-ray diffraction and soil geochemical data are defined:  
 path_obs <- "./Zenodo/Environment/predictors.csv"
 
 #' # Data import
@@ -44,6 +44,7 @@ predictors <- read.csv(path_obs, stringsAsFactors = FALSE, na.strings = c("NA" ,
 #' ## Check data dimensions
 #' 
 #' An initial look at the `pred` data frame with the predictor variables can be done here.
+#' Variable names will be renamed in the subsequent script.
 #+ include=TRUE
 str(predictors)
 

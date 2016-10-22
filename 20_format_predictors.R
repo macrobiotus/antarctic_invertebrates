@@ -1,7 +1,7 @@
 #' ---
 #' title: "Preparation of predictor data "
 #' author: "Paul Czechowski"
-#' date: "October 10th, 2016"
+#' date: "October 22nd, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -120,7 +120,6 @@ predictors$Sample <- gsub('.{4}$', '', predictors$Sample)
 
 #' In fact, the sample names can be used as the row names, and then be deleted.
 rownames(predictors) <- predictors$Sample
-
 predictors$Sample <- NULL
 
 #' ## Removal of unused variables  
@@ -141,9 +140,9 @@ predictors$c_Texture   <- NULL  # spotty observation data, needs improved encodi
 
 #' ## Setting and naming of variables used for analysis  
 #' 
-#' Now, the variable names are changed to four letter abbreviations, to aid during
+#' Now, the variable names are changed to four letter abbreviations, to aid 
 #' later analysis. Also the types will be set properly. This does not need to be
-#' written as a function, because surely this will only be done once.
+#' written as a function, because this will only be done once.
 
 # rename  variables - "setnames()" does this by reference, to avoid errors
 setnames (predictors,
@@ -163,7 +162,7 @@ setnames (predictors,
 #' <!-- View(predictors) -->
 #' <!-- dim(predictors)  -->
  
-# correct variable types
+# correct variable types to make everything easier subsequently
   
 predictors$AREA <- as.factor(predictors$AREA)
 predictors$GENE <- as.factor(predictors$GENE)
@@ -207,7 +206,7 @@ str(predictors)
 summary (predictors) 
 
 #' Correcting a mistake in marker availability data (excluding one more
-#' that is only relevant when analysing the COI data as well):
+#' that is only relevant when analysing COI data as well):
 predictors[which (rownames(predictors) %in% c("2.10.E", "2.10.C")), "GENE"] <- "18Sonly"
 
 #' # Write data to disk 

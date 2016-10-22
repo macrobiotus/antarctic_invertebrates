@@ -1,7 +1,7 @@
 #' ---
 #' title: "Helper functions for invertebrate analysis"
 #' author: "Paul Czechowski"
-#' date: "October 10th, 2016"
+#' date: "October 22nd, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -64,7 +64,7 @@ agglomerate <- function (ps_ob, tax_rank) {
 
 #' ## Reset presence absence values
 #'
-#' This calculates presence / absence within a given phyloseq object
+#' This calculates presence / absence within a given `phyloseq` object
 #' on phylotypes. Only makes sense with agglomerated object.
 make_binary <- function(phsq_ob){
 
@@ -114,7 +114,7 @@ get_phylotypes <- function (ps_ob) {
 
 #' ## Renaming phylotypes
 #'
-#' Function to rename phylotypes from identifier to specific taxon name
+#' Function to rename phylotypes from identifier to specific taxon name.
 rename_phylotypes <- function (spc, ps_ob, tax_rank) {
 
   # package loading
@@ -133,7 +133,7 @@ rename_phylotypes <- function (spc, ps_ob, tax_rank) {
 
 #' ## Getting data frames of predictor variables
 #'
-#' Function to get selected predictor variables from Phyloseq objects.
+#' Function to get selected predictor variables from `phyloseq` objects.
 get_predictors <- function (ps_ob, vars) {
 
   # package loading
@@ -157,8 +157,8 @@ get_predictors <- function (ps_ob, vars) {
 
 #' ## Relative abundances
 #'
-#' This calculates relative abundances within a given phyloseq object
-#' phylotypes (Used for plotting).
+#' This calculates relative abundances within a given `phyloseq` object
+#' (Used for plotting).
 make_proportional <- function(phsq_ob){
 
   # package loading
@@ -229,8 +229,8 @@ cmpl_phylotypes  <- function (phylotypes, predictors) {
 #' ## Getting R-compatible data frames
 #'
 #' This function returns a matrix `spc` and a data frame `obs` from a passed-in
-#' phyloseq object. It also returns vectors `loc` and `gen` (to have available
-#' location groups and marker coverage for plots etc.)
+#' `phyloseq` object. It also returns vectors `loc` and `gen` (to have available
+#' location groups and marker coverage for plots etc.).
 get_list <- function (ps_ob, tax_rank, pred_cat, pres_abs = FALSE) {
 
   # package loading
@@ -370,7 +370,7 @@ transform_clr <- function (obs) {
 #'
 #' This function performs Yeo-Johnson transformation [@yeo2000] (or others), centres, scales the data
 #' and removes near zero variance values from the data. It's intended to be used
-#' with continuous data (soil geochemical values, but will work on any data frame.
+#' with continuous data (soil geochemical values), but will work on any data frame.
 transform_any <- function (obs, method = c("center", "scale", "YeoJohnson", "nzv")) {
 
   # package loading
@@ -440,7 +440,7 @@ get_biplot <- function (pcs, grp) {
 #' Kaiser rule and broken stick model Usage: `evplot(ev)` where ev is a vector
 #' of eigenvalues. License: GPL-2 Author: Francois Gillet, 25 August 2012.
 #' Average might be dragged way below 1 here, so this is is perhaps not
-#' the perfect implementation.
+#' the perfect implementation. Not used anymore.
 get_evplot <- function(ev) {
 
   # Broken stick model (MacArthur 1957)
@@ -463,7 +463,7 @@ get_evplot <- function(ev) {
 }
 
 #' An improved version of the the function above written with `ggplot2`.
-#' Author: Ben Rohrlach, 7 August 2016.
+#' Author: Ben Rohrlach, 7 August 2016. Used instead of `get_evplot`.
 plot_pcvars <- function (pcs, plotScreen = FALSE){
 
   # package loading
@@ -489,7 +489,7 @@ plot_pcvars <- function (pcs, plotScreen = FALSE){
 #' ## Get `corrplots()`
 #'
 #' Simple function to get `corrplots()`; intended for use with soil geochemical values,
-#' but should work with any other object as well.
+#' but should work with any other object as well. Not used anymore.
 get_corrplots <- function (obs, flt_obs) {
 
   # message

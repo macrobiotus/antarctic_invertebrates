@@ -30,3 +30,7 @@ Thumbs.db
 .Rapp.history
 .RData
 .Rhistory
+
+# Zenodo releases of Zenodo folder
+# ###############################
+.zip

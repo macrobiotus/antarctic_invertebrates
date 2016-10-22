@@ -1,7 +1,7 @@
 #' ---
 #' title: "Main analysis"
 #' author: "Paul Czechowski"
-#' date: "October 10th, 2016"
+#' date: "October 22nd, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -146,7 +146,7 @@ pl1 <- barplot_samples (agglomerate (phsq_ob, "Class"), "Class")
 pl2 <- barplot_samples (make_binary (agglomerate (phsq_ob, "Class")), "Class")
 
 #' Showing the plots.:
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=7, dpi=200, fig.align='center',  fig.cap="Invertebrate abundances at selected taxonomic level, rarefied. (approx. code line 158)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=7, dpi=200, fig.align='center',  fig.cap="Invertebrate abundances at selected taxonomic level. (approx. code line 149)"
 grid.arrange(pl1, pl2, nrow = 2)
 
 #' Save the plots.:
@@ -206,7 +206,7 @@ plots <- list (plot_bar (phsq_obs[[1]], fill = "Class", facet_grid = "Phylum~ARE
 
 #' Plots can now be shown, and saved to the output directory. Objects are then
 #' discarded.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=10, dpi=200, fig.align='center',  fig.cap="Invertebrate class and phylum composition per sampling location, with rarefied abundances. (Approx. code line 205)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=10, dpi=200, fig.align='center',  fig.cap="Invertebrate class and phylum composition per sampling location, with CSS'd abundances. Note: This is not the same figure as in the main text. (Approx. code line 209)"
 grid.arrange(plots[[1]], plots[[2]], plots[[3]], nrow = 3)
 
 #' Saving plots.:
@@ -225,7 +225,7 @@ rm (plots, phsq_obs, phsq_agg)
 phsq_map <- map_samples(phsq_ob, col_long = "LONG", col_lat = "LATI", 
   subtitle = "18S data")
 
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Smple range of responses and predictors (approx. code line 233)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Sample range of responses and predictors (approx. code line 228)"
 plot(phsq_map)
 
 ggsave (path_map_pcm, plot = phsq_map, dpi = 200, width = 5.5, height = 4.5, 
@@ -314,19 +314,19 @@ minl <- matr_ana[["obs"]] [ , minerals]; matr_ana[["obs"]] [ , minerals] <- NULL
 #'
 #' Isolated and combined mineral and chemical data from the `phyloseq` object,
 #' congruent with rows in `spc`, `grp`, and `gen`.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=16, fig.height=16, dpi=200, fig.align='center', fig.cap="Isolated and combined mineral and chemical data, unmodified. (approx. code line 289)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=16, fig.height=16, dpi=200, fig.align='center', fig.cap="Isolated and combined mineral and chemical data, unmodified. (approx. code line 317)"
 ggpairs ( data.frame (chem, minl, check.rows = TRUE))
 summary ( data.frame (chem, minl, check.rows = TRUE))
 str (data.frame (chem, minl, check.rows = TRUE))
 
 #' Violin plots for unmodified chemical data.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Chemical data per location, unmodified. (approx. code line 295)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Chemical data per location, unmodified. (approx. code line 323)"
 add_discretex (chem, grp, dfr_x_name = "AREA") %>% 
  get_violinplotlist ( . ,"AREA") %>%
  marrangeGrob ( . , nrow=3, ncol=3)
  
 #' Violin plots for unmodified mineral data.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Mineral data per location, unmodified. (approx. code line 301)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Mineral data per location, unmodified. (approx. code line 329)"
 add_discretex (minl, grp, dfr_x_name = "AREA") %>% 
  get_violinplotlist ( . ,"AREA") %>%
  marrangeGrob ( . , nrow=3, ncol=3)
@@ -378,7 +378,7 @@ corr_min <-  ggcorrplot(cor (remove_cocorrelated(obs)), hc.order = TRUE, type = 
   colors = c("#6D9EC1", "white", "#E46726"))
 
 # plot out
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=8, dpi=200, fig.align='center', fig.cap="removal of co-correlations  in yj transformed chemical data and clr yj transformed mineral data. (approx. code line 359)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=8, dpi=200, fig.align='center', fig.cap="removal of co-correlations  in yj transformed chemical data and clr yj transformed mineral data. (approx. code line 381)"
 grid.arrange (corr_all,  corr_min , ncol=2)
 
 # write to dik 
@@ -401,7 +401,7 @@ obs <- remove_cocorrelated(obs)
 #' Plot the data before it goes to into further analyses, only for checking.
 #' Initially a scatterplot.
 
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Scatterplot of centred and scaled mineral and chemical data (approx. code line 231)."
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Scatterplot of centred and scaled mineral and chemical data (approx. code line 404)."
 # saving this plot for disk-write
 ggpairs (obs) # less co-correlation, less skew?
 summary (obs)
@@ -416,7 +416,7 @@ dev.off()
 rm (g)
 
 #' And the violin plots.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Violin plot of scaled mineral and chemical data. Note that several samples have been excluded when merging mineral and chemical data (approx. code line 235)."
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Violin plot of scaled mineral and chemical data. Note that several samples have been excluded when transforming merging mineral and chemical data (approx. code line 419)."
 add_discretex (obs, grp, dfr_x_name = "AREA") %>% 
  get_violinplotlist ( . ,"AREA") %>%
  marrangeGrob ( . , nrow=5, ncol=3)
@@ -449,18 +449,18 @@ pcs <- prcomp (obs, center = FALSE, scale = FALSE)
 #'
 #' Testing the principal components with a variance plot. Here on should only
 #' interpret principal components with variances above 1.
-#+ message=FALSE, warning=FALSE, fig.width=5, fig.height=5, dpi=200, fig.align='center', fig.cap="PCA variance plots of centred and scaled mineral data (approx. code line 759)"
+#+ message=FALSE, warning=FALSE, fig.width=5, fig.height=3, dpi=200, fig.align='center', fig.cap="PCA variance plots of centred and scaled mineral data (approx. code line 452)"
 plot_pcvars(pcs)
 
 # write to disk
 ggsave (path_pca_var, plot = last_plot (), path = NULL, scale = 1, width = 7, 
   height = 3, units = "in", dpi = 300)
 
-#' ### Bi-plot (geochemical values)
+#' ### Bi-plot
 #'
 #' The biplot can be generated, after the variables in `grp` are subset to match
 #' the `pcs` object, necessary for correct ovals in the plot.  
-#+ message=FALSE, warning=FALSE, fig.width=8, fig.height=8, dpi=200, fig.align='center', fig.cap="PCA biplots on clr-transformed mineral data. CALC and CHLR excluded (too sparse at MM) (approx. code line 702)"
+#+ message=FALSE, warning=FALSE, fig.width=8, fig.height=8, dpi=200, fig.align='center', fig.cap="PCA biplots on clr/vj-transformed mineral data and yj-transformed chemical data. (approx. code line 463)"
 get_biplot(pcs, shorten_groups (grp, obs)) # `grp` is needed later without type
                                            #  conversion - don't expand this 
                                            #  expression!
@@ -482,10 +482,10 @@ ggsave (path_pca_bip, plot = last_plot (), scale = 1, width = 7,
 #' the CSS algorithm in Qiime [@Paulson2013] _"With CSS, raw counts are divided 
 #' by the cumulative sum of counts up to a percentile determined using a data-driven 
 #' approach."_ The data is shown using a scatterplot and a violin plot. 
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Scatter plot of cumulative sum-scaled species observations (approx. code line 467)."
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Scatterplot of cumulative sum-scaled species observations (approx. code line 485)."
 ggpairs (spc)
 summary (spc) 
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Violin plot of cumulative sum-scaled species observations (approx. code line 470)."
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Violin plot of cumulative sum-scaled species observations (approx. code line 488)."
 add_discretex ( as.data.frame(spc), grp, dfr_x_name = "AREA") %>% 
  get_violinplotlist ( . ,"AREA") %>%
  marrangeGrob ( . , nrow=3, ncol=2)
@@ -516,14 +516,15 @@ spc_mds <- metaMDS(spc, distance = "bray" ,  k = 2, try = 1000, trymax = 2000,
   binary = FALSE)
 
 spc_mds # stress value is 0.04411049
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=8, dpi=200, fig.align='center', fig.cap="NMDS stressplot (approx. code line 519)."
 stressplot(spc_mds)
 
-#' ### Fitting environmental vectors 
+#' ## Fitting environmental vectors 
 #' 
 env <- envfit(spc_mds, obs, permutations = 9999)
 env
 
-#+ message=FALSE, warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center', fig.cap="MDS plot of species and mineral data, SLPH with (*) significance  here. Blue: Mount Menzies, Red: Lake Terrasovoje, Green: Mawson Escarpment (approx. code line 521)"
+#+ message=FALSE, warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center', fig.cap="NMDS plot of species and mineral data, SLPH with (*) significance  here. Blue: Mount Menzies, Red: Lake Terrasovoje, Green: Mawson Escarpment (approx. code line 527)."
 par (mfrow = c (1, 1))
 ordiplot (spc_mds, display = "sites" )
 # ordihull (spc_mds, shorten_groups (grp, obs), col = c ("coral3", "chartreuse4", "cornflowerblue"))
@@ -631,7 +632,7 @@ regr_list <- lapply (y_axis, plot_regrs, ages)
 
 #' Plots can now be shown, and saved to the output directory. Objects are then
 #' discarded.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Regressions between terrrain age and soil geochemical measurments. (Approx. code line 615)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Regressions between all terrrain ages and soil geochemical measurments. (Approx. code line 635)"
 marrangeGrob (regr_list, nrow = 3, ncol = 3)
 
 #' Saving plots.:
@@ -685,11 +686,14 @@ regr_listLT <- lapply (y_axis, plot_regrs, agesLT)
 
 #' Plots can now be shown, and saved to the output directory. Objects are then
 #' discarded.
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Regressions between terrrain age and soil geochemical measurments. (Approx. code line 615)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Mount Menzies: Regressions between terrrain age and soil geochemical measurements (Approx. code line 689)."
 marrangeGrob (regr_listMM, nrow = 3, ncol = 3)
-marrangeGrob (regr_listME, nrow = 3, ncol = 3)
-marrangeGrob (regr_listLT, nrow = 3, ncol = 3)
 
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Mawson Escarpment: Regressions between terrrain age and soil geochemical measurements (Approx. code line 692)."
+marrangeGrob (regr_listME, nrow = 3, ncol = 3)
+
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=10, fig.height=10, dpi=200, fig.align='center',  fig.cap="Lake Terrasovoje: Regressions between terrrain age and soil geochemical measurements (Approx. code line 695)."
+marrangeGrob (regr_listLT, nrow = 3, ncol = 3)
 
 #' #### Testing all regressions
 #'
@@ -707,7 +711,6 @@ regressionsLT <- lapply (y_axis, function(x) {
     lm ( substitute (MNAGE ~ i, list(i = as.name(x))), data = agesLT)
     })
 
-
 #' Return summary from list for more specific results
 lapply (regressionsMM, summary )
 lapply (regressionsME, summary )
@@ -722,7 +725,7 @@ lapply (regressionsLT, summary )
 #'
 #' Saved are object created by this script as well as command history and work-space
 #' image.
-save.image (path_workspace_b)                    # work-space
+save.image (path_workspace_b) # work-space
 
 #' # Session info
 #' 

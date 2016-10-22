@@ -1,7 +1,7 @@
 #' ---
 #' title: "Inclusion of sample data into CSS'd `phyloseq` object"
 #' author: "Paul Czechowski"
-#' date: "October 10th, 2016"
+#' date: "October 22nd, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -53,8 +53,7 @@ rm(list=ls())         # clear R environment
 #' number in front of the file name denotes the source script. The `phyloseq`
 #' object used here is from the repository `pcm_modelling` and has complete 
 #' eukaryotic data available, abundance corrected with the `css` algorithm in Qiime
-#' 1.9. The sequence pre-processing was modified and extended for this object.
-#' See the documentation for `pcm_modelling` for further information.
+#' 1.9.
 #'
 #' ### Import  Locations
 #'
@@ -148,7 +147,7 @@ load (path_predictors) # object name is "predictors"
 #'
 #' # Filtering `phyloseq` data
 #'
-#' And hand is a phyloseq object from a project dealing with all eukaryotes, and with
+#' And hand is a `phyloseq` object from a project dealing with all eukaryotes, and with
 #' all locations. In order for this object to be congruent with the downstream work flow.
 #' Sample area "Reinbolt Hills" needs to be removed. Also everything apart from 
 #' invertebrates needs to be removed.
@@ -156,25 +155,23 @@ load (path_predictors) # object name is "predictors"
 # remove superfluous sample region
 phsq_ob <- subset_samples (phsq_ob, sample_data (phsq_ob)$AREA != "Reinbolt_Hills")
 
-# first count
-length(sample_names(phsq_ob))
+#' Give a first count to know how many samples were processed.
 
-# sample locations 
-length (sample_data(phsq_ob)$AREA)                 # of 90 samples
-length (which (sample_data(phsq_ob)$AREA == "Mount_Menzies")) # 8 samples from MM
-length (which (sample_data(phsq_ob)$AREA == "Mawson_Escarpment")) # 38 samples from ME
-length (which (sample_data(phsq_ob)$AREA == "Lake_Terrasovoje")) # 44 samples from ME
+length(sample_names(phsq_ob))                      # how many samples...
+length (sample_data(phsq_ob)$AREA)                 # ... again jsut to be sure? 
+length (which (sample_data(phsq_ob)$AREA == "Mount_Menzies"))     # 20 samples MM
+length (which (sample_data(phsq_ob)$AREA == "Mawson_Escarpment")) # 64 samples ME
+length (which (sample_data(phsq_ob)$AREA == "Lake_Terrasovoje"))  # 64 samples LT
 
-# marker coverage  
+#' Marker coverage  
 levels (sample_data(phsq_ob)$GENE)                      # of two gene combinations
-length (which (sample_data(phsq_ob)$GENE == "both"))    # 42 both genes
-length (which (sample_data(phsq_ob)$GENE == "18Sonly")) # 48 18Sonly
-length (which (sample_data(phsq_ob)$GENE == "COIonly")) #  0 COIonly,
+length (which (sample_data(phsq_ob)$GENE == "both"))    # 58 both genes
+length (which (sample_data(phsq_ob)$GENE == "18Sonly")) # 77 18Sonly
+length (which (sample_data(phsq_ob)$GENE == "COIonly")) #  1 COIonly,
 
 # retain invertebrates
 phsq_ob <- subset_taxa (phsq_ob, Phylum == "Rotifera" | Phylum ==  "Tardigrada"
   |  Phylum == "Arthropoda" |  Phylum == "Nematoda")
-
 
 # remove classes that must be mis-identifications, since data was subset to non-
 #   control, Antarctic samples only. 
@@ -251,9 +248,8 @@ phsq_ob <- phyloseq (otu_table(phsq_ob), tax_table(phsq_ob), sample_data(predict
 
 #' <!-- #################################################################### -->
 #'
-#' # Undoing the log scaling of CSS'd abundance counts.
-#'
-#' This was experimental and is not used anymore:
+#' Undoing the log scaling of CSS'd abundance counts. This was experimental 
+#' and is not used anymore:
 
 # phsq_ob <- get_exp(phsq_ob)
 
@@ -293,7 +289,7 @@ pl1 <- barplot_samples (agglomerate (phsq_ob, "Class"), "Class")
 pl2 <- barplot_samples (make_binary (agglomerate (phsq_ob, "Class")), "Class")
 
 #' Showing the plots.:
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=7, dpi=200, fig.align='center',  fig.cap="Invertebrate abundances at class level. (approx. code line 280)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=7, fig.height=7, dpi=200, fig.align='center',  fig.cap="Invertebrate abundances at class level. Counts are RAW sequences, CSS not applied here. (approx. code line 293)"
 grid.arrange(pl1, pl2, nrow = 2)
 
 #' <!-- #################################################################### -->
