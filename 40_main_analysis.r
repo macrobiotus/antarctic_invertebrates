@@ -1,7 +1,7 @@
 #' ---
 #' title: "Main analysis"
 #' author: "Paul Czechowski"
-#' date: "October 22nd, 2016"
+#' date: "December 5th, 2016"
 #' output: pdf_document
 #' toc: true
 #' highlight: zenburn
@@ -10,13 +10,15 @@
 #'
 #' # Preface
 #' 
-#' This code is tested using a raw R terminal. Path names are defined relative 
+#' This text was re-rendered in the proofing stage, it is slightly newer then
+#' the versions available in the released online repositories. This code is 
+#' tested using a raw R terminal. Path names are defined relative 
 #' to the project directory. This code commentary is included in the R code 
 #' itself and can be rendered at any stage using 
 #' `rmarkdown::render ("40_main_analysis.r")`. Please check the session info 
 #' at the end of the document for further notes on the coding environment.
 #' 
-#' # Prerequisites
+#' # Prerequisites to run this analysis
 #' 
 #' * This script is in the parent directory of the repository. 
 #' * Scripts `10_import_predictors.r`, `20_format_predictors.r`,
@@ -360,9 +362,9 @@ obs <- merge(chem, minl, by = "row.names", all = TRUE); rownames (obs) <-
 obs <- transform_any (obs, method = c ("center", "scale", "YeoJohnson", "nzv")) 
 obs <- obs[complete.cases(obs), ]
 
-#' ### Plotting co-correlations
+#' ### Plotting correlations
 #'
-#' A simple function call to see precisely, which variables are co-correlated.
+#' A simple function call to see precisely, which variables are correlated.
 #' Writing correlation plots to disk doesn't work (easily) with `corrplot()` using
 #' `ggcorrplot()` instead now (shorten this!).
 
@@ -378,7 +380,7 @@ corr_min <-  ggcorrplot(cor (remove_cocorrelated(obs)), hc.order = TRUE, type = 
   colors = c("#6D9EC1", "white", "#E46726"))
 
 # plot out
-#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=8, dpi=200, fig.align='center', fig.cap="removal of co-correlations  in yj transformed chemical data and clr yj transformed mineral data. (approx. code line 381)"
+#+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=8, dpi=200, fig.align='center', fig.cap="removal of correlations  in yj transformed chemical data and clr yj transformed mineral data. (approx. code line 381)"
 grid.arrange (corr_all,  corr_min , ncol=2)
 
 # write to dik 
@@ -390,7 +392,7 @@ ggsave (path_min_cor, plot = corr_min, dpi = 200, width = 8, height = 4.5,
 # garbage cleaning
 rm (path_all_cor, path_min_cor, corr_all, corr_min)
 
-#' ###  Removing the co-correlated variables 
+#' ###  Removing the correlated variables 
 #' 
 #' In addition to the plot above, the text confirms which 
 #' variables are kept, and which ones are removed. 
@@ -403,7 +405,7 @@ obs <- remove_cocorrelated(obs)
 
 #+ message=FALSE, results='hide', warning=FALSE, fig.width=12, fig.height=12, dpi=200, fig.align='center', fig.cap="Scatterplot of centred and scaled mineral and chemical data (approx. code line 404)."
 # saving this plot for disk-write
-ggpairs (obs) # less co-correlation, less skew?
+ggpairs (obs) # less correlation, less skew?
 summary (obs)
 
 # write data to disk (slooooooow)
