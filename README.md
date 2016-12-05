@@ -11,7 +11,7 @@ The following code represents analyses conducted for the manuscript titled **"Ag
 ## Data files
 
 Release data and code files are available from
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.162484.svg)](https://doi.org/10.5281/zenodo.162484) and [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.190926.svg)](https://doi.org/10.5281/zenodo.190926). Please reconstitue theformer archieve as a folder `Zenodo` into your locally cloned repository (latter file set).
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.162484.svg)](https://doi.org/10.5281/zenodo.162484) and [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.190926.svg)](https://doi.org/10.5281/zenodo.190926). Please reconstitue the former archieve as a folder `Zenodo` into your locally cloned repository (latter file set).
 
 ## Analysis documentation
 
